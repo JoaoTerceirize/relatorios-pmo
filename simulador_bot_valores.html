@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulador de Viabilidade — Plataforma de Recuperação de Crédito</title>
+<title>Simulador de Viabilidade — Plataforma de Recuperação de Crédito (v8)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@ header{border-bottom:2px solid var(--navy);padding-bottom:20px;margin-bottom:24p
 .grid{display:grid;grid-template-columns:400px 1fr;gap:28px;align-items:start}
 @media(max-width:940px){.grid{grid-template-columns:1fr}}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px}
-.panel h2{font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:600;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.panel h2{font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:600;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .panel h2 .tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--tint);color:var(--navy);padding:2px 8px;border-radius:99px;font-weight:600}
 .section{margin-bottom:22px;padding-bottom:18px;border-bottom:1px dashed var(--line)}
 .section:last-of-type{margin-bottom:0;border-bottom:none;padding-bottom:0}
@@ -42,6 +42,8 @@ input:disabled{background:#F1F1EF;color:var(--slate)}
 .hint{font-size:12px;color:var(--slate);margin-top:6px}
 .hint.warn{color:var(--bad);font-weight:500}
 .hint.gold{color:#8a6100;font-weight:500}
+.notebox{background:var(--tint);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:12px;color:var(--slate);line-height:1.5}
+.notebox b{color:var(--navy);font-family:'Space Grotesk',sans-serif}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-bottom:10px}
 .seg button{border:none;background:#fff;color:var(--slate);padding:6px 14px;font-size:12.5px;cursor:pointer;border-radius:0}
 .seg button.on{background:var(--navy);color:#fff}
@@ -65,12 +67,17 @@ input:disabled{background:#F1F1EF;color:var(--slate)}
 .recbox{background:var(--tint);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .recbox .k{font-size:11px;color:var(--slate);letter-spacing:.04em;text-transform:uppercase;font-weight:600}
 .recbox .v{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;color:var(--navy);margin-top:2px}
+.recbox .d{font-size:12px;color:var(--slate);margin-top:2px}
+.upliftbar{background:#FDEBF4;border:1px solid #F5C4DE;border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13.5px;color:#7a1145}
+.upliftbar b{font-family:'Space Grotesk',sans-serif}
 .atosbar{background:#FBF4E6;border:1px solid #E8D9AE;border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#6b5200}
 .atosbar b{font-family:'Space Grotesk',sans-serif}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
 .mcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
 .mcard .lbl{font-size:11px;color:var(--slate);letter-spacing:.04em;text-transform:uppercase;font-weight:600}
 .mcard .val{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--navy);margin-top:4px}
+.mcard .val.good{color:var(--good)}
+.mcard .val.bad{color:var(--bad)}
 .covbox{background:var(--tint);border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px}
 .covbox b{font-family:'Space Grotesk',sans-serif;color:var(--navy)}
 .legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--slate);margin-bottom:8px}
@@ -83,8 +90,10 @@ th:first-child,td:first-child{text-align:left}
 th{background:var(--tint);color:var(--navy);font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.05em;text-transform:uppercase;font-weight:600}
 tr.poc td:first-child{color:var(--pink);font-weight:600}
 tr.total td{font-weight:600;background:var(--tint);color:var(--navy);border-bottom:none}
+td.neg{color:var(--bad)}
 .foot{margin-top:26px;font-size:12px;color:var(--slate);border-top:1px solid var(--line);padding-top:14px}
 .foot b{color:var(--ink)}
+.foot p{margin-top:10px}
 .todo{background:#FDEBF4;border:1px solid #F5C4DE;border-radius:8px;padding:12px 16px;margin-top:16px;font-size:12.5px;color:#7a1145}
 .todo b{font-family:'Space Grotesk',sans-serif}
 .btnrow{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
@@ -101,11 +110,11 @@ button.pinkline:hover{background:#FDEBF4}
 
 <header>
   <div class="brand">
-    <div class="eyebrow">Análise CFO · Confidencial · v7</div>
-    <h1>Simulador de viabilidade — Propostas da Contratada</h1>
+    <div class="eyebrow">Análise CFO · Confidencial · v8</div>
+    <h1>Simulador de viabilidade — Propostas 11.734 e 11.735/2026</h1>
     <p>Contratante · Recuperação de crédito · Universo ~3.700 CPFs / ~R$ 90 mi · POC 90 dias + contrato 12 meses</p>
   </div>
-  <div class="stamp"><b>Dados: coordenação RC (jul/2026)</b>Recuperação p/ o credor · Honorários p/ a Contratante (10%, carteiras a 20%)</div>
+  <div class="stamp"><b>Dados: coordenação RC (jul/2026)</b>Veredito sobre ganho incremental · Honorários p/ a Contratante (10%, carteiras a 20%)</div>
 </header>
 
 <div class="presets">
@@ -134,27 +143,30 @@ button.pinkline:hover{background:#FDEBF4}
 </div>
 
 <div class="section">
-<h2>Recuperação e honorários</h2>
+<h2>Recuperação <span class="tag">baseline vs. com sistema</span></h2>
 <div class="seg" id="recMode">
-  <button data-mode="pct" class="on">Por % da volumetria</button>
-  <button data-mode="rs">Por R$/mês</button>
+  <button data-mode="pct">Por % da volumetria</button>
+  <button data-mode="rs" class="on">Por R$/mês</button>
 </div>
-<div id="wrapPct">
-  <label>Recuperação efetiva anual (% da volumetria)</label>
-  <div style="display:flex;align-items:center;gap:10px">
-    <input type="range" id="ret" min="1" max="20" step="0.1" value="4" style="flex:1;accent-color:var(--pink)">
-    <div style="display:flex;align-items:center;gap:4px;min-width:82px">
-      <input type="number" id="retNum" min="0.1" max="30" step="0.1" value="4" style="width:62px;height:32px;text-align:right;padding:0 6px">
-      <span style="font-weight:600;color:var(--navy)">%</span>
-    </div>
+<div id="wrapPct" style="display:none">
+  <div class="row2">
+    <div><label>Atual, sem sistema (%/ano)</label><input type="number" id="retBasePct" min="0" max="60" step="0.1" value="3.5"></div>
+    <div><label>Com sistema (%/ano)</label><input type="number" id="retSistPct" min="0" max="60" step="0.1" value="4.9"></div>
   </div>
 </div>
-<div id="wrapRs" style="display:none">
-  <label>Recuperação efetiva (R$/mês)</label>
-  <input type="text" class="money" id="retRs" value="300.000">
+<div id="wrapRs">
+  <div class="row2">
+    <div><label>Atual, sem sistema (R$/mês)</label><input type="text" class="money" id="retBaseRs" value="300.000"></div>
+    <div><label>Esperada, com sistema (R$/mês)</label><input type="text" class="money" id="retSistRs" value="420.000"></div>
+  </div>
 </div>
 <p class="hint" id="retInfo"></p>
-<div class="row2" style="margin-top:10px">
+<p class="hint warn" id="retWarn"></p>
+</div>
+
+<div class="section">
+<h2>Honorários</h2>
+<div class="row2">
   <div><label>Honorários — geral (%)</label><input type="number" id="hoGeral" min="0" max="100" step="1" value="10"></div>
   <div><label>Parte da carteira a 20% (%)</label><input type="number" id="pctPavei" min="0" max="100" step="5" value="15"></div>
 </div>
@@ -181,7 +193,7 @@ button.pinkline:hover{background:#FDEBF4}
 </div>
 
 <div class="section">
-<h2>Capacidade de discagem (voz)</h2>
+<h2>Capacidade de discagem (voz NLP) <span class="tag">não afeta o custo</span></h2>
 <div class="row3">
   <div><label>Lig./hora/agente</label><input type="number" id="ligHora" min="100" max="800" step="50" value="550"></div>
   <div><label>Horas/dia (6–8)</label><input type="number" id="horasDia" min="1" max="12" step="1" value="7"></div>
@@ -198,6 +210,10 @@ button.pinkline:hover{background:#FDEBF4}
     <option value="12">12× (diária útil)</option>
   </select>
 </div>
+<div class="notebox">
+  <b>Por que este controle não muda o resultado financeiro.</b> O custo dos agentes é fixo mensal; a varredura afeta apenas o alcance da carteira, não o custo. O único custo que escala com o volume de ligações é a telefonia, que está fora de escopo na proposta e não é precificada aqui.
+  <div style="margin-top:6px">A capacidade de varredura vem dos agentes NLP (fluxo fechado, feito para volume). O agente de Voz IA é de negociação consultiva e não entra nesta conta.</div>
+</div>
 <p class="hint" id="capInfo"></p>
 <p class="hint warn" id="capWarn"></p>
 </div>
@@ -209,6 +225,7 @@ button.pinkline:hover{background:#FDEBF4}
   <div><label>Licença mensal</label><input type="text" class="money" value="2.300" disabled></div>
 </div>
 <label class="check" style="margin-top:8px"><input type="checkbox" id="iaSetup"> Cobrar setup IA (R$ 25.000)</label>
+<p class="hint">Negociação consultiva. Não compõe a capacidade de varredura de base.</p>
 <p class="hint warn" id="iaWarn"></p>
 </div>
 
@@ -283,20 +300,22 @@ button.pinkline:hover{background:#FDEBF4}
 
 <div class="hero">
   <div>
-    <div class="lbl">Resultado em 15 meses · base honorários <span class="badge" id="viaBadge">—</span></div>
+    <div class="lbl">Ganho incremental em 15 meses <span class="badge" id="viaBadge">—</span></div>
     <div class="big" id="margem">—</div>
     <div class="sub" id="margemSub">—</div>
   </div>
   <div>
-    <div class="lbl">Recuperação incremental para pagar o sistema</div>
+    <div class="lbl">Recuperação mínima com sistema (breakeven)</div>
     <div class="big pink" id="incr">—</div>
     <div class="sub" id="incrSub">—</div>
   </div>
 </div>
 
+<div class="upliftbar" id="upliftBar">—</div>
+
 <div class="recbox">
-  <div><div class="k">Recuperação (entra para o credor)</div><div class="v" id="recCredor">—</div></div>
-  <div><div class="k">Honorários (a Contratante fatura)</div><div class="v" id="recHon">—</div></div>
+  <div><div class="k">Recuperação (entra para o credor)</div><div class="v" id="recCredor">—</div><div class="d" id="recCredorD">—</div></div>
+  <div><div class="k">Honorários (a Contratante fatura)</div><div class="v" id="recBogo">—</div><div class="d" id="recBogoD">—</div></div>
 </div>
 
 <div class="atosbar" id="atosBar">—</div>
@@ -304,9 +323,11 @@ button.pinkline:hover{background:#FDEBF4}
 <div class="covbox" id="covResumo">—</div>
 
 <div class="cards">
+  <div class="mcard"><div class="lbl">Honorários hoje / mês</div><div class="val" id="mRevBase">—</div></div>
+  <div class="mcard"><div class="lbl">Honorários c/ sistema / mês</div><div class="val" id="mRevSist">—</div></div>
+  <div class="mcard"><div class="lbl">Ganho increm. líquido / mês</div><div class="val" id="mNet">—</div></div>
   <div class="mcard"><div class="lbl">POC / mês</div><div class="val" id="mPoc">—</div></div>
   <div class="mcard"><div class="lbl">Contrato / mês</div><div class="val" id="mCon">—</div></div>
-  <div class="mcard"><div class="lbl">Honorários / mês</div><div class="val" id="mRev">—</div></div>
   <div class="mcard"><div class="lbl">Custo total 15 meses</div><div class="val" id="tot15">—</div></div>
   <div class="mcard"><div class="lbl">HO efetivo médio</div><div class="val" id="hoEff">—</div></div>
   <div class="mcard"><div class="lbl">Cauda portal pós-M15</div><div class="val" id="mTail">—</div></div>
@@ -323,16 +344,20 @@ button.pinkline:hover{background:#FDEBF4}
 <div class="chartbox"><canvas id="proj" role="img" aria-label="Barras empilhadas dos custos mensais nos 3 meses de POC e 12 meses de contrato, por componente"></canvas></div>
 
 <table id="tbl">
-<thead><tr><th>Mês</th><th>Voz NLP</th><th>IA</th><th>Chatbot</th><th>Portal</th><th>Disparos</th><th>Setups</th><th>Custo</th><th>Recuperação</th><th>Honorários</th><th>Margem</th></tr></thead>
+<thead><tr><th>Mês</th><th>Voz NLP</th><th>IA</th><th>Chatbot</th><th>Portal</th><th>Disparos</th><th>Setups</th><th>Custo</th><th>Recup. incremental</th><th>Honor. incrementais</th><th>Margem incremental</th></tr></thead>
 <tbody></tbody>
 </table>
 
 <div class="todo">
-<b>Pendências da coordenação (afetam a projeção):</b> confirmar taxa de HO das carteiras ainda não informadas (assumido 10% para elas); prazo médio real de recebimento por carteira (modelo considera HO no mês do acordo, sem defasagem das ~36 parcelas — leitura otimista de caixa); nº de contratos da nova carteira entrante; tabela de valores de atos por tipo. Crescimento contínuo das carteiras entrantes fica fora do modelo por ora — entra como margem de segurança qualitativa até haver ritmo de entrada e tempo de maturação medidos.
+<b>Pendências da coordenação (afetam a projeção):</b> confirmar taxa de HO das carteiras ainda não informadas (assumido 10% para elas); prazo médio real de recebimento por carteira (modelo considera HO no mês do acordo, sem defasagem das ~36 parcelas — leitura otimista de caixa); nº de contratos da nova carteira entrante; tabela de valores de atos por tipo. Crescimento contínuo das carteiras entrantes fica fora do modelo por ora — entra como margem de segurança qualitativa até haver ritmo de entrada e tempo de maturação medidos. Falta ainda evidência empírica do uplift declarado: o valor de "recuperação esperada com sistema" é premissa, não medição, e deve ser testado na POC.
 </div>
 
 <div class="foot">
-<b>Premissas e alertas.</b> Universo: ~3.700 CPFs / ~13 mil contratos / ~R$ 90 mi (coordenação RC, jul/2026); nova carteira entrante +R$ 12 mi / +1.200 CPFs. <b>Recuperação</b> = valor que entra para o credor; <b>Honorários</b> = o que a Contratante fatura (taxa efetiva ponderada: 10% geral, fração a 20%). Recuperação efetiva histórica: mai R$ 200k, jun R$ 250k, jul (prev.) R$ 500k — média ~R$ 300k/mês (padrão do simulador ≈ 4%/ano da volumetria). Meta declarada: R$ 100k/mês só em honorários de êxito. Atos (~R$ 70–90k/mês) exibidos como receita paralela, fora do payback. HO no mês do acordo, sem defasagem das parcelas. Módulos de voz/IA/chatbot/envios e Portal de Negociação: propostas da Contratada (portal em 24 meses, volumétrico por boleto). Telefonia fora de escopo. Franquia POC formalizar por escrito. Reajuste IGPM.
+<b>Base conceitual do veredito (mudança do v8).</b> A área já recupera hoje sem custo de plataforma. Esse patamar é o ponto de partida e não pode ser creditado ao sistema. O veredito compara apenas o ganho incremental: (recuperação com sistema − recuperação atual) × HO efetivo × 15 meses − custo total do sistema. VIÁVEL significa que o ganho adicional paga a plataforma, não que os honorários totais a pagam.
+
+<p><b>Premissas e alertas.</b> Universo: ~3.700 CPFs / ~13 mil contratos / ~R$ 90 mi (coordenação RC, jul/2026); nova carteira entrante +R$ 12 mi / +1.200 CPFs. <b>Recuperação</b> = valor que entra para o credor; <b>Honorários</b> = o que a Contratante fatura (taxa efetiva ponderada: 10% geral, fração a 20%). Recuperação efetiva histórica: mai R$ 200k, jun R$ 250k, jul (prev.) R$ 500k — média ~R$ 300k/mês, usada como baseline padrão. Meta declarada: R$ 100k/mês só em honorários de êxito. Atos (~R$ 70–90k/mês) exibidos como receita paralela, fora do payback. HO no mês do acordo, sem defasagem das parcelas. Módulos de voz/IA/chatbot/envios: proposta 11.734; Portal de Negociação: proposta 11.735 (24 meses, volumétrico por boleto). Custo de voz fixo por agente/mês, independente do volume de discagem. Telefonia fora de escopo. Franquia POC formalizar por escrito. Reajuste IGPM.</p>
+
+<p><b>Upside qualitativo, fora do veredito.</b> Automatizar a abordagem pode liberar a equipe para atuar mais em atos, audiências e acordos, que hoje respondem por cerca de 2/3 da receita da área. Esse ganho de produtividade não entra no cálculo de viabilidade porque não está medido: não há hoje registro de horas da equipe por tipo de atividade nem estimativa validada de quanto tempo seria liberado. Trata-se de margem de segurança qualitativa, a ser convertida em número somente se a POC produzir medição de horas antes e depois. Decidir a contratação contando com esse ganho é decidir sem evidência.</p>
 </div>
 
 </div>
@@ -345,13 +370,14 @@ const $ = id => document.getElementById(id);
 const fmt = v => {
   const r = Math.round(v*100)/100;
   const hasCents = Math.round(r*100) % 100 !== 0;
-  return 'R$ ' + r.toLocaleString('pt-BR',{minimumFractionDigits: hasCents?2:0, maximumFractionDigits:2});
+  return (r<0?'−':'') + 'R$ ' + Math.abs(r).toLocaleString('pt-BR',{minimumFractionDigits: hasCents?2:0, maximumFractionDigits:2});
 };
-const fmtK = v => 'R$ ' + (Math.abs(v)>=1000000 ? (v/1000000).toLocaleString('pt-BR',{maximumFractionDigits:1})+' mi' : Math.round(v).toLocaleString('pt-BR'));
+const fmtK = v => (v<0?'−':'') + 'R$ ' + (Math.abs(v)>=1000000 ? (Math.abs(v)/1000000).toLocaleString('pt-BR',{maximumFractionDigits:1})+' mi' : Math.round(Math.abs(v)).toLocaleString('pt-BR'));
+const pct1 = v => v.toFixed(1).replace('.',',') + '%';
 const P = { neg:[550,525,500,475], loc:[380,355,330,305], pre:[400,375,350,325], rec:[200,175,150,125] };
 const tierNames = ['5 a 15','16 a 30','31 a 50','51+'];
 const emailUnit = v => v <= 500000 ? 0.0201 : v <= 1000000 ? 0.0141 : 0.0111;
-let chart, resumo = '', recMode = 'pct', retPctVal = 4;
+let chart, resumo = '', recMode = 'rs';
 
 // --- máscara de moeda pt-BR em inputs de texto ---
 const parseMoney = el => { const d=(el.value||'').replace(/\D/g,''); return d?parseInt(d,10):0; };
@@ -361,7 +387,7 @@ function maskMoney(el){
 }
 document.querySelectorAll('input.money:not([disabled])').forEach(el=>{
   maskMoney(el);
-  el.addEventListener('input', ()=>{ const pos=el.value.length; maskMoney(el); calc(); });
+  el.addEventListener('input', ()=>{ maskMoney(el); calc(); });
 });
 
 function tierIdx(t){ return t <= 15 ? 0 : t <= 30 ? 1 : t <= 50 ? 2 : 3; }
@@ -378,14 +404,14 @@ function portalUnit(v){
 function portalCost(v){ return v <= 0 ? 3000 : Math.max(3000, v * portalUnit(v)); }
 const varrTxt = x => x >= 100 ? Math.round(x)+'×' : (Math.round(x*100)/100).toLocaleString('pt-BR')+'×';
 
+function setMode(m){
+  recMode = m;
+  $('recMode').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.mode===m));
+  $('wrapPct').style.display = m==='pct'?'':'none';
+  $('wrapRs').style.display = m==='rs'?'':'none';
+}
 $('recMode').querySelectorAll('button').forEach(b=>{
-  b.addEventListener('click',()=>{
-    recMode=b.dataset.mode;
-    $('recMode').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
-    $('wrapPct').style.display = recMode==='pct'?'':'none';
-    $('wrapRs').style.display = recMode==='rs'?'':'none';
-    calc();
-  });
+  b.addEventListener('click',()=>{ setMode(b.dataset.mode); calc(); });
 });
 
 function calc(){
@@ -410,38 +436,55 @@ function calc(){
   const hoGeral = (+$('hoGeral').value||0)/100;
   const pctPavei = (+$('pctPavei').value||0)/100;
   const hoEff = hoGeral*(1-pctPavei) + 0.20*pctPavei;
-  $('hoInfo').textContent = 'HO efetivo ponderado: ' + (hoEff*100).toFixed(1).replace('.',',') + '% (' + Math.round((1-pctPavei)*100) + '% a ' + Math.round(hoGeral*100) + '% + ' + Math.round(pctPavei*100) + '% a 20%).';
-  $('hoEff').textContent = (hoEff*100).toFixed(1).replace('.',',') + '%';
+  $('hoInfo').textContent = 'HO efetivo ponderado: ' + pct1(hoEff*100) + ' (' + Math.round((1-pctPavei)*100) + '% a ' + Math.round(hoGeral*100) + '% + ' + Math.round(pctPavei*100) + '% a 20%).';
+  $('hoEff').textContent = pct1(hoEff*100);
 
-  // Recuperação: modo % ou R$
-  let recupMes, retPct;
+  // --- Recuperação: baseline (sem sistema) vs. com sistema ---
+  let recupBase, recupSist, pctBase, pctSist;
   if (recMode==='pct'){
-    retPct = retPctVal/100;
-    // espelha slider (limitado a 20) e campo numérico (livre)
-    $('ret').value = Math.min(20, Math.max(0.1, retPctVal));
-    if (document.activeElement !== $('retNum')) $('retNum').value = (+retPctVal.toFixed(1));
-    recupMes = valTot*retPct/12;
-    $('retRs').value = Math.round(recupMes).toLocaleString('pt-BR');
+    pctBase = Math.max(0, parseFloat($('retBasePct').value)||0);
+    pctSist = Math.max(0, parseFloat($('retSistPct').value)||0);
+    recupBase = valTot*pctBase/100/12;
+    recupSist = valTot*pctSist/100/12;
+    if(document.activeElement!==$('retBaseRs')) $('retBaseRs').value = Math.round(recupBase).toLocaleString('pt-BR');
+    if(document.activeElement!==$('retSistRs')) $('retSistRs').value = Math.round(recupSist).toLocaleString('pt-BR');
   } else {
-    recupMes = parseMoney($('retRs'));
-    retPct = valTot>0 ? recupMes*12/valTot : 0;
-    retPctVal = +(retPct*100).toFixed(1);
-    $('ret').value = Math.min(20, Math.max(0.1, retPctVal));
-    $('retNum').value = retPctVal;
+    recupBase = parseMoney($('retBaseRs'));
+    recupSist = parseMoney($('retSistRs'));
+    pctBase = valTot>0 ? recupBase*12/valTot*100 : 0;
+    pctSist = valTot>0 ? recupSist*12/valTot*100 : 0;
+    if(document.activeElement!==$('retBasePct')) $('retBasePct').value = +pctBase.toFixed(2);
+    if(document.activeElement!==$('retSistPct')) $('retSistPct').value = +pctSist.toFixed(2);
   }
-  const revMes = recupMes*hoEff;
-  $('retInfo').textContent = 'Recuperação ' + fmt(recupMes) + '/mês (' + (retPct*100).toFixed(1).replace('.',',') + '%/ano da volumetria) → honorários ' + fmt(revMes) + '/mês. Histórico: R$ 200k–500k/mês.';
-  $('recCredor').textContent = fmt(recupMes) + '/mês';
-  $('recHon').textContent = fmt(revMes) + '/mês';
+  const delta = recupSist - recupBase;
+  const revBase = recupBase*hoEff, revSist = recupSist*hoEff, revDelta = delta*hoEff;
 
-  const agentesVoz = tot + (qIa>0 ? Math.max(qIa,5) : 0);
+  $('retInfo').textContent = 'Hoje ' + fmt(recupBase) + '/mês (' + pct1(pctBase) + '/ano) → com sistema ' + fmt(recupSist) + '/mês (' + pct1(pctSist) + '/ano) · delta ' + fmt(delta) + '/mês → honorários incrementais ' + fmt(revDelta) + '/mês.';
+  $('retWarn').textContent = delta === 0 ? 'Delta zero: o sistema não gera ganho incremental e é custo puro no veredito.'
+    : (delta < 0 ? 'Recuperação com sistema abaixo da atual: cenário destrutivo de valor.' : '');
+
+  $('recCredor').textContent = fmt(recupBase) + ' → ' + fmt(recupSist) + '/mês';
+  $('recCredorD').textContent = 'Delta ' + fmt(delta) + '/mês' + (recupBase>0 ? ' (' + pct1(delta/recupBase*100) + ' sobre a atual)' : '');
+  $('recBogo').textContent = fmt(revBase) + ' → ' + fmt(revSist) + '/mês';
+  $('recBogoD').textContent = 'Honorários incrementais ' + fmt(revDelta) + '/mês';
+
+  // --- Capacidade de discagem: apenas agentes NLP (IA é negociação consultiva) ---
+  const agentesVoz = tot;
   const lh = +$('ligHora').value||0, hd = +$('horasDia').value||0, dm = +$('diasMes').value||0;
   const capTotal = lh*hd*dm*agentesVoz;
   const varrAlvo = +$('varrVoz').value;
   const ligNecessarias = contTot*varrAlvo;
   const varrPossiveis = contTot>0 ? capTotal/contTot : 0;
-  $('capInfo').textContent = 'Capacidade: ' + capTotal.toLocaleString('pt-BR') + ' lig./mês → até ' + varrTxt(varrPossiveis) + ' a carteira. Meta: ' + ligNecessarias.toLocaleString('pt-BR') + ' lig.';
-  $('capWarn').textContent = (varrAlvo>0 && ligNecessarias>capTotal) ? 'Capacidade insuficiente para a meta.' : '';
+  $('capInfo').textContent = 'Capacidade NLP: ' + capTotal.toLocaleString('pt-BR') + ' lig./mês (' + agentesVoz + ' agentes) → até ' + varrTxt(varrPossiveis) + ' a carteira. Meta: ' + ligNecessarias.toLocaleString('pt-BR') + ' lig. Sem efeito sobre custo ou veredito.';
+  let capMsg = '';
+  if (varrAlvo > 0 && agentesVoz === 0){
+    capMsg = qIa > 0
+      ? 'Nenhum agente NLP configurado — a varredura de base depende de agentes NLP; o agente de IA é para negociação consultiva, não varredura.'
+      : 'Nenhum agente NLP configurado — sem capacidade de varredura.';
+  } else if (varrAlvo > 0 && ligNecessarias > capTotal){
+    capMsg = 'Capacidade insuficiente para a meta.';
+  }
+  $('capWarn').textContent = capMsg;
 
   const atend = +$('chat').value;
   const cBot = atend < 0 ? 0 : 3500 + Math.max(0, atend-1500)*0.89;
@@ -496,32 +539,40 @@ function calc(){
     if(m===1) recPocC = vozNlp+ia+cBot+(hasPortal&&pStart===1?portal:0)+dPoc;
     if(m===15) recConC = vozNlp+ia+cBot+(hasPortal?portal:0)+dCon;
     a[0].push(vozNlp); a[1].push(ia); a[2].push(Math.round(cBot)); a[3].push(Math.round(pCost)); a[4].push(Math.round(d)); a[5].push(s);
-    rows.push({m,poc,vozNlp,ia,bot:cBot,portal:pCost,d,s,t,rec:recupMes,rev:revMes,mar:revMes-t});
+    rows.push({m,poc,vozNlp,ia,bot:cBot,portal:pCost,d,s,t,rec:delta,rev:revDelta,mar:revDelta-t});
   }
 
-  const revTotal = revMes*15;
-  const margem = revTotal - acc;
+  // --- Veredito: só sobre o ganho incremental ---
+  const revDeltaTotal = revDelta*15;
+  const margem = revDeltaTotal - acc;
   const viavel = margem >= 0;
-  $('margem').textContent = (margem<0?'−':'') + fmtK(Math.abs(margem));
+  $('margem').textContent = fmtK(margem);
   $('margem').className = 'big ' + (viavel?'ok':'bad');
-  $('margemSub').textContent = 'Honorários ' + fmtK(revTotal) + ' − custo ' + fmtK(acc) + ' · recuperação ' + fmt(recupMes) + '/mês a ' + (hoEff*100).toFixed(1).replace('.',',') + '% HO';
+  $('margemSub').textContent = 'Honorários incrementais ' + fmtK(revDeltaTotal) + ' − custo ' + fmtK(acc) + ' · delta ' + fmt(delta) + '/mês a ' + pct1(hoEff*100) + ' HO';
   $('viaBadge').textContent = viavel ? 'VIÁVEL' : 'INVIÁVEL';
   $('viaBadge').className = 'badge ' + (viavel?'ok':'bad');
 
   const custoMesMedio = acc/15;
-  const incrRecup = hoEff>0 ? custoMesMedio/hoEff : 0;
-  const recAtual = 300000;
-  $('incr').textContent = fmtK(incrRecup) + '/mês';
-  $('incrSub').textContent = 'Recuperação adicional/mês que cobre o custo · +' + Math.round(incrRecup/recAtual*100) + '% sobre os ~R$ 300k recentes';
+  const upliftMin = hoEff>0 ? custoMesMedio/hoEff : 0;
+  const breakeven = recupBase + upliftMin;
+  const upliftPct = recupBase>0 ? upliftMin/recupBase*100 : null;
+  $('incr').textContent = fmtK(breakeven) + '/mês';
+  $('incrSub').textContent = 'Uplift mínimo ' + fmt(upliftMin) + '/mês' + (upliftPct!==null ? ' (+' + pct1(upliftPct) + ' sobre a atual)' : '');
+  $('upliftBar').innerHTML = '<b>Uplift mínimo:</b> a recuperação com sistema precisa passar de ' + fmt(breakeven) + '/mês para o investimento se justificar' + (upliftPct!==null ? ' — um acréscimo de ' + fmt(upliftMin) + '/mês, ou ' + pct1(upliftPct) + ' sobre a recuperação atual de ' + fmt(recupBase) + '/mês' : '') + '. Abaixo disso, manter a operação atual rende mais.';
 
-  $('atosBar').innerHTML = '<b>Receita paralela de atos:</b> ' + fmt(atos) + '/mês — fora do veredito. Somando atos + honorários de êxito, a receita da área fica em ~' + fmt(atos+revMes) + '/mês.';
+  const net = revDelta - custoMesMedio;
+  $('mRevBase').textContent = fmt(revBase);
+  $('mRevSist').textContent = fmt(revSist);
+  $('mNet').textContent = fmt(net);
+  $('mNet').className = 'val ' + (net>=0?'good':'bad');
+
+  $('atosBar').innerHTML = '<b>Receita paralela de atos:</b> ' + fmt(atos) + '/mês — fora do veredito. Somando atos + honorários com sistema, a receita da área fica em ~' + fmt(atos+revSist) + '/mês (hoje ~' + fmt(atos+revBase) + '/mês).';
 
   const totalAbord = ligNecessarias + nWaU + nWaM + nSms + nEm;
-  $('covResumo').innerHTML = '<b>Alcance mensal:</b> voz ' + ligNecessarias.toLocaleString('pt-BR') + ' lig. (' + varrTxt(varrAlvo) + ') · mensageria ' + (nWaU+nWaM+nSms+nEm).toLocaleString('pt-BR') + ' envios · <b>total ' + totalAbord.toLocaleString('pt-BR') + ' abordagens = ' + varrTxt(totalAbord/contTot) + ' a carteira de ' + contTot.toLocaleString('pt-BR') + ' CPFs</b>';
+  $('covResumo').innerHTML = '<b>Alcance mensal:</b> voz ' + ligNecessarias.toLocaleString('pt-BR') + ' lig. (' + varrTxt(varrAlvo) + ') · mensageria ' + (nWaU+nWaM+nSms+nEm).toLocaleString('pt-BR') + ' envios · <b>total ' + totalAbord.toLocaleString('pt-BR') + ' abordagens = ' + varrTxt(totalAbord/contTot) + ' a carteira de ' + contTot.toLocaleString('pt-BR') + ' CPFs</b> · alcance não altera custo nem veredito';
 
   $('mPoc').textContent = fmt(recPocC);
   $('mCon').textContent = fmt(recConC);
-  $('mRev').textContent = fmt(revMes);
   $('tot15').textContent = fmt(acc);
   const tailMonths = hasPortal ? Math.max(0, 24 - (15 - pStart + 1)) : 0;
   $('mTail').textContent = hasPortal ? fmt(tailMonths*3000) + ' (' + tailMonths + 'm)' : '—';
@@ -530,28 +581,31 @@ function calc(){
   chart.update();
 
   const tb = document.querySelector('#tbl tbody'); tb.innerHTML='';
+  const cls = v => v<0 ? ' class="neg"' : '';
   rows.forEach(r=>{
     const tr=document.createElement('tr'); if(r.poc) tr.className='poc';
-    tr.innerHTML='<td>'+(r.poc?'POC '+r.m:'M'+(r.m-3))+'</td><td>'+fmt(r.vozNlp)+'</td><td>'+fmt(r.ia)+'</td><td>'+fmt(r.bot)+'</td><td>'+fmt(r.portal)+'</td><td>'+fmt(r.d)+'</td><td>'+(r.s?fmt(r.s):'—')+'</td><td>'+fmt(r.t)+'</td><td>'+fmt(r.rec)+'</td><td>'+fmt(r.rev)+'</td><td>'+fmt(r.mar)+'</td>';
+    tr.innerHTML='<td>'+(r.poc?'POC '+r.m:'M'+(r.m-3))+'</td><td>'+fmt(r.vozNlp)+'</td><td>'+fmt(r.ia)+'</td><td>'+fmt(r.bot)+'</td><td>'+fmt(r.portal)+'</td><td>'+fmt(r.d)+'</td><td>'+(r.s?fmt(r.s):'—')+'</td><td>'+fmt(r.t)+'</td><td'+cls(r.rec)+'>'+fmt(r.rec)+'</td><td'+cls(r.rev)+'>'+fmt(r.rev)+'</td><td'+cls(r.mar)+'>'+fmt(r.mar)+'</td>';
     tb.appendChild(tr);
   });
   const sum = k => rows.reduce((s,r)=>s+r[k],0);
   const trT=document.createElement('tr'); trT.className='total';
-  trT.innerHTML='<td>Total 15 meses</td><td>'+fmt(sum('vozNlp'))+'</td><td>'+fmt(sum('ia'))+'</td><td>'+fmt(sum('bot'))+'</td><td>'+fmt(sum('portal'))+'</td><td>'+fmt(sum('d'))+'</td><td>'+fmt(sum('s'))+'</td><td>'+fmt(acc)+'</td><td>'+fmt(sum('rec'))+'</td><td>'+fmt(revTotal)+'</td><td>'+fmt(margem)+'</td>';
+  trT.innerHTML='<td>Total 15 meses</td><td>'+fmt(sum('vozNlp'))+'</td><td>'+fmt(sum('ia'))+'</td><td>'+fmt(sum('bot'))+'</td><td>'+fmt(sum('portal'))+'</td><td>'+fmt(sum('d'))+'</td><td>'+fmt(sum('s'))+'</td><td>'+fmt(acc)+'</td><td>'+fmt(delta*15)+'</td><td>'+fmt(revDeltaTotal)+'</td><td>'+fmt(margem)+'</td>';
   tb.appendChild(trT);
 
-  resumo = 'Simulação de viabilidade v7 — Contratante\n' +
+  resumo = 'Simulação de viabilidade v8 — Contratante (veredito sobre ganho incremental)\n' +
     'Carteira: ' + contTot.toLocaleString('pt-BR') + ' CPFs · ' + fmtK(valTot) + '\n' +
-    'Recuperação (credor): ' + fmt(recupMes) + '/mês · Honorários (Contratante): ' + fmt(revMes) + '/mês (HO efetivo ' + (hoEff*100).toFixed(1).replace('.',',') + '%)\n' +
-    'Atos (paralelo): ' + fmt(atos) + '/mês · receita total área ~' + fmt(atos+revMes) + '/mês\n' +
+    'Recuperação atual (sem sistema): ' + fmt(recupBase) + '/mês · com sistema: ' + fmt(recupSist) + '/mês · delta ' + fmt(delta) + '/mês\n' +
+    'Honorários (HO efetivo ' + pct1(hoEff*100) + '): hoje ' + fmt(revBase) + '/mês · com sistema ' + fmt(revSist) + '/mês · incrementais ' + fmt(revDelta) + '/mês\n' +
+    'Atos (paralelo): ' + fmt(atos) + '/mês · receita total área ~' + fmt(atos+revSist) + '/mês\n' +
     'Custo: POC ' + fmt(recPocC) + '/mês · contrato ' + fmt(recConC) + '/mês · 15m ' + fmt(acc) + '\n' +
-    'Margem (só honorários): ' + fmtK(margem) + ' (' + (viavel?'VIÁVEL':'INVIÁVEL') + ')\n' +
-    'Recuperação incremental p/ pagar o sistema: ' + fmtK(incrRecup) + '/mês (+' + Math.round(incrRecup/recAtual*100) + '%)';
+    'Margem incremental 15m: ' + fmtK(margem) + ' (' + (viavel?'VIÁVEL':'INVIÁVEL') + ')\n' +
+    'Ganho incremental líquido: ' + fmt(net) + '/mês\n' +
+    'Breakeven: recuperação com sistema precisa passar de ' + fmt(breakeven) + '/mês (uplift mínimo ' + fmt(upliftMin) + '/mês' + (upliftPct!==null?', +'+pct1(upliftPct):'') + ')\n' +
+    'Varredura: ' + varrTxt(varrAlvo) + ' · capacidade NLP ' + capTotal.toLocaleString('pt-BR') + ' lig./mês · custo de voz fixo por agente, telefonia fora de escopo';
 }
 
 function setVals(map){
   Object.entries(map).forEach(([id,v])=>{
-    if(id==='ret'){ retPctVal=+v; $('ret').value=Math.min(20,Math.max(0.1,+v)); $('retNum').value=+v; return; }
     const el=$(id); if(!el) return;
     if(el.type==='checkbox') el.checked=v;
     else if(el.classList && el.classList.contains('money')) el.value=(+v).toLocaleString('pt-BR');
@@ -560,25 +614,22 @@ function setVals(map){
   calc();
 }
 function presetReal(){
-  recMode='pct'; $('recMode').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.mode==='pct'));
-  $('wrapPct').style.display=''; $('wrapRs').style.display='none';
-  setVals({cart:3700,valCart:90000000,cartNew:1200,valNew:12000000,ret:4,hoGeral:10,pctPavei:15,atos:75000,
+  setMode('rs');
+  setVals({cart:3700,valCart:90000000,cartNew:1200,valNew:12000000,retBaseRs:300000,retSistRs:420000,hoGeral:10,pctPavei:15,atos:75000,
     qNeg:3,qLoc:2,qPre:0,qRec:0,ligHora:550,horasDia:7,diasMes:21,varrVoz:4,qIa:0,iaSetup:false,
     onPortal:true,vPortal:3000,portalStart:1,chat:1500,
     onWaU:true,vWaU:3700,onWaM:false,vWaM:0,onSms:true,vSms:3000,onEm:true,vEm:4000,franqPos:false,exit:false});
 }
 function presetAilos(){
-  recMode='pct'; $('recMode').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.mode==='pct'));
-  $('wrapPct').style.display=''; $('wrapRs').style.display='none';
-  setVals({cart:600,valCart:22000000,cartNew:1200,valNew:12000000,ret:6,hoGeral:10,pctPavei:0,atos:40000,
+  setMode('pct');
+  setVals({cart:600,valCart:22000000,cartNew:1200,valNew:12000000,retBasePct:4,retSistPct:6,hoGeral:10,pctPavei:0,atos:40000,
     qNeg:3,qLoc:2,qPre:0,qRec:0,ligHora:550,horasDia:7,diasMes:21,varrVoz:4,qIa:0,iaSetup:false,
     onPortal:true,vPortal:2000,portalStart:1,chat:1500,
     onWaU:true,vWaU:1800,onWaM:false,vWaM:0,onSms:true,vSms:3000,onEm:true,vEm:4000,franqPos:false,exit:false});
 }
 function presetMeta(){
-  recMode='rs'; $('recMode').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.mode==='rs'));
-  $('wrapPct').style.display='none'; $('wrapRs').style.display='';
-  setVals({cart:3700,valCart:90000000,cartNew:1200,valNew:12000000,retRs:1000000,hoGeral:10,pctPavei:15,atos:75000,
+  setMode('rs');
+  setVals({cart:3700,valCart:90000000,cartNew:1200,valNew:12000000,retBaseRs:300000,retSistRs:1000000,hoGeral:10,pctPavei:15,atos:75000,
     qNeg:3,qLoc:2,qPre:0,qRec:0,ligHora:550,horasDia:7,diasMes:21,varrVoz:4,qIa:0,iaSetup:false,
     onPortal:true,vPortal:3000,portalStart:1,chat:3000,
     onWaU:true,vWaU:3700,onWaM:false,vWaM:0,onSms:true,vSms:5000,onEm:true,vEm:6000,franqPos:false,exit:false});
@@ -609,10 +660,9 @@ chart = new Chart($('proj'), {
   }
 });
 
-['cart','cartNew','hoGeral','pctPavei','qNeg','qLoc','qPre','qRec','ligHora','horasDia','diasMes','varrVoz','qIa','iaSetup','onPortal','vPortal','portalStart','chat','onWaU','vWaU','onWaM','vWaM','onSms','vSms','onEm','vEm','franqPos','exit'].forEach(id=>$(id).addEventListener('input',calc));
-$('retRs').addEventListener('input',calc);
-$('ret').addEventListener('input',()=>{ retPctVal = +$('ret').value; recMode='pct'; calc(); });
-$('retNum').addEventListener('input',()=>{ const v=parseFloat($('retNum').value); if(!isNaN(v)){ retPctVal=Math.max(0,v); recMode='pct'; calc(); } });
+['cart','cartNew','retBasePct','retSistPct','hoGeral','pctPavei','qNeg','qLoc','qPre','qRec','ligHora','horasDia','diasMes','varrVoz','qIa','iaSetup','onPortal','vPortal','portalStart','chat','onWaU','vWaU','onWaM','vWaM','onSms','vSms','onEm','vEm','franqPos','exit'].forEach(id=>$(id).addEventListener('input',calc));
+$('retBasePct').addEventListener('input',()=>{ recMode='pct'; });
+$('retSistPct').addEventListener('input',()=>{ recMode='pct'; });
 calc();
 </script>
 </body>
