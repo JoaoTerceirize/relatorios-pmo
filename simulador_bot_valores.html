@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulador v3 · Contratada × Contratante — Ponto de equilíbrio</title>
+<title>Simulador de Viabilidade — Plataforma de Recuperação de Crédito</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -11,7 +11,7 @@
 :root{
   --navy:#141B4D; --pink:#E5197E; --paper:#FAFAF8; --card:#FFFFFF;
   --ink:#1C2138; --slate:#5A6072; --line:#E3E4EC; --teal:#0F6E56;
-  --tint:#F3F0FA;
+  --tint:#F3F0FA; --good:#0F6E56; --bad:#A32D2D;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.55}
@@ -24,7 +24,7 @@ header{border-bottom:2px solid var(--navy);padding-bottom:20px;margin-bottom:24p
 .stamp b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--navy);font-size:13px}
 .presets{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;align-items:center}
 .presets .lbl{font-size:12.5px;color:var(--slate);font-weight:500}
-.grid{display:grid;grid-template-columns:390px 1fr;gap:28px;align-items:start}
+.grid{display:grid;grid-template-columns:400px 1fr;gap:28px;align-items:start}
 @media(max-width:940px){.grid{grid-template-columns:1fr}}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px}
 .panel h2{font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:600;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px}
@@ -32,31 +32,47 @@ header{border-bottom:2px solid var(--navy);padding-bottom:20px;margin-bottom:24p
 .section{margin-bottom:22px;padding-bottom:18px;border-bottom:1px dashed var(--line)}
 .section:last-of-type{margin-bottom:0;border-bottom:none;padding-bottom:0}
 label{font-size:12.5px;color:var(--slate);font-weight:500;display:block;margin-bottom:4px}
-input[type=number],select{width:100%;height:36px;border:1px solid var(--line);border-radius:6px;padding:0 10px;font:inherit;font-variant-numeric:tabular-nums;background:#fff;color:var(--ink)}
-input[type=number]:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(20,27,77,.08)}
+input[type=number],input[type=text],select{width:100%;height:36px;border:1px solid var(--line);border-radius:6px;padding:0 10px;font:inherit;font-variant-numeric:tabular-nums;background:#fff;color:var(--ink)}
+input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(20,27,77,.08)}
+input.money{text-align:right}
+input:disabled{background:#F1F1EF;color:var(--slate)}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .row4{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .hint{font-size:12px;color:var(--slate);margin-top:6px}
-.hint.warn{color:#A32D2D;font-weight:500}
+.hint.warn{color:var(--bad);font-weight:500}
 .hint.gold{color:#8a6100;font-weight:500}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-bottom:10px}
+.seg button{border:none;background:#fff;color:var(--slate);padding:6px 14px;font-size:12.5px;cursor:pointer;border-radius:0}
+.seg button.on{background:var(--navy);color:#fff}
 .check{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink);margin:6px 0;cursor:pointer}
 .check input{accent-color:var(--navy);width:15px;height:15px}
-.channel{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;margin-bottom:8px}
+.channel{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;margin-bottom:2px}
 .channel .name{font-size:13px;display:flex;align-items:center;gap:6px;min-width:186px;margin:0}
 .channel .name small{color:var(--slate);font-size:11.5px}
-.sliderline{display:flex;align-items:center;gap:10px}
-input[type=range]{flex:1;accent-color:var(--pink)}
-.sliderval{font-family:'Space Grotesk',sans-serif;font-weight:600;min-width:44px;text-align:right;font-size:14px;color:var(--navy)}
-.hero{background:var(--navy);border-radius:10px;padding:22px 24px;color:#fff;display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.chcov{font-size:11.5px;color:var(--slate);margin:0 0 8px 0;padding-left:2px}
+.hero{background:var(--navy);border-radius:10px;padding:22px 24px;color:#fff;display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
 @media(max-width:640px){.hero{grid-template-columns:1fr}}
 .hero .lbl{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#B8BEE6;font-weight:600}
-.hero .big{font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.15;margin-top:4px}
+.hero .big{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.15;margin-top:4px}
 .hero .big.pink{color:#FF7DBB}
+.hero .big.ok{color:#7BE3B0}
+.hero .big.bad{color:#FF9C9C}
 .hero .sub{font-size:12.5px;color:#B8BEE6;margin-top:2px}
+.badge{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.08em;padding:3px 10px;border-radius:99px;margin-left:8px;vertical-align:middle}
+.badge.ok{background:#0F6E56;color:#fff}
+.badge.bad{background:#A32D2D;color:#fff}
+.recbox{background:var(--tint);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.recbox .k{font-size:11px;color:var(--slate);letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.recbox .v{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;color:var(--navy);margin-top:2px}
+.atosbar{background:#FBF4E6;border:1px solid #E8D9AE;border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#6b5200}
+.atosbar b{font-family:'Space Grotesk',sans-serif}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
 .mcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
 .mcard .lbl{font-size:11px;color:var(--slate);letter-spacing:.04em;text-transform:uppercase;font-weight:600}
 .mcard .val{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--navy);margin-top:4px}
+.covbox{background:var(--tint);border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px}
+.covbox b{font-family:'Space Grotesk',sans-serif;color:var(--navy)}
 .legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--slate);margin-bottom:8px}
 .legend span{display:flex;align-items:center;gap:5px}
 .sw{width:10px;height:10px;border-radius:2px;display:inline-block}
@@ -69,6 +85,8 @@ tr.poc td:first-child{color:var(--pink);font-weight:600}
 tr.total td{font-weight:600;background:var(--tint);color:var(--navy);border-bottom:none}
 .foot{margin-top:26px;font-size:12px;color:var(--slate);border-top:1px solid var(--line);padding-top:14px}
 .foot b{color:var(--ink)}
+.todo{background:#FDEBF4;border:1px solid #F5C4DE;border-radius:8px;padding:12px 16px;margin-top:16px;font-size:12.5px;color:#7a1145}
+.todo b{font-family:'Space Grotesk',sans-serif}
 .btnrow{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
 button{font:inherit;font-size:13px;font-weight:500;padding:8px 14px;border-radius:6px;border:1px solid var(--navy);background:#fff;color:var(--navy);cursor:pointer}
 button:hover{background:var(--tint)}
@@ -83,23 +101,72 @@ button.pinkline:hover{background:#FDEBF4}
 
 <header>
   <div class="brand">
-    <div class="eyebrow">Análise CFO · Confidencial · v3</div>
-    <h1>Simulador de ponto de equilíbrio — Propostas da Contratada</h1>
-    <p>Contratante · Recuperação de crédito · POC 90 dias + contrato 12 meses · Portal Regularize-ai (24 meses)</p>
+    <div class="eyebrow">Análise CFO · Confidencial · v7</div>
+    <h1>Simulador de viabilidade — Propostas da Contratada</h1>
+    <p>Contratante · Recuperação de crédito · Universo ~3.700 CPFs / ~R$ 90 mi · POC 90 dias + contrato 12 meses</p>
   </div>
-  <div class="stamp"><b>Propostas da Contratada</b>Portal volumétrico por boleto/CPF · sem telefonia</div>
+  <div class="stamp"><b>Dados: coordenação RC (jul/2026)</b>Recuperação p/ o credor · Honorários p/ a Contratante (10%, carteiras a 20%)</div>
 </header>
 
 <div class="presets">
   <span class="lbl">Cenários rápidos:</span>
-  <button class="primary" onclick="presetBase()">Cenário base Contratante</button>
-  <button class="pinkline" onclick="presetImagem()">Simulação recebida (R$ 24.225,40)</button>
+  <button class="primary" onclick="presetReal()">Universo real (R$ 90 mi)</button>
+  <button onclick="presetAilos()">Só base principal (R$ 22 mi)</button>
+  <button class="pinkline" onclick="presetMeta()">Meta: 100k/mês em honorários</button>
 </div>
 
 <div class="grid">
 
 <div class="controls">
 <div class="panel">
+
+<div class="section">
+<h2>Carteira <span class="tag">âncora do modelo</span></h2>
+<div class="row2">
+  <div><label>CPFs/CNPJs ativos</label><input type="number" id="cart" min="100" step="100" value="3700"></div>
+  <div><label>Volumetria atual (R$)</label><input type="text" class="money" id="valCart" value="90.000.000"></div>
+</div>
+<div class="row2" style="margin-top:8px">
+  <div><label>Novas carteiras — CPFs</label><input type="number" id="cartNew" min="0" step="100" value="1200"></div>
+  <div><label>Novas carteiras — R$</label><input type="text" class="money" id="valNew" value="12.000.000"></div>
+</div>
+<p class="hint" id="ticketInfo"></p>
+</div>
+
+<div class="section">
+<h2>Recuperação e honorários</h2>
+<div class="seg" id="recMode">
+  <button data-mode="pct" class="on">Por % da volumetria</button>
+  <button data-mode="rs">Por R$/mês</button>
+</div>
+<div id="wrapPct">
+  <label>Recuperação efetiva anual (% da volumetria)</label>
+  <div style="display:flex;align-items:center;gap:10px">
+    <input type="range" id="ret" min="1" max="20" step="0.1" value="4" style="flex:1;accent-color:var(--pink)">
+    <div style="display:flex;align-items:center;gap:4px;min-width:82px">
+      <input type="number" id="retNum" min="0.1" max="30" step="0.1" value="4" style="width:62px;height:32px;text-align:right;padding:0 6px">
+      <span style="font-weight:600;color:var(--navy)">%</span>
+    </div>
+  </div>
+</div>
+<div id="wrapRs" style="display:none">
+  <label>Recuperação efetiva (R$/mês)</label>
+  <input type="text" class="money" id="retRs" value="300.000">
+</div>
+<p class="hint" id="retInfo"></p>
+<div class="row2" style="margin-top:10px">
+  <div><label>Honorários — geral (%)</label><input type="number" id="hoGeral" min="0" max="100" step="1" value="10"></div>
+  <div><label>Parte da carteira a 20% (%)</label><input type="number" id="pctPavei" min="0" max="100" step="5" value="15"></div>
+</div>
+<p class="hint" id="hoInfo"></p>
+</div>
+
+<div class="section">
+<h2>Receita de atos <span class="tag">paralela</span></h2>
+<label>Receita mensal de atos (R$) — fora do payback</label>
+<input type="text" class="money" id="atos" value="75.000">
+<p class="hint">Atos/audiências/acordos: ~2/3 da receita atual, pouco sensíveis à automação. Exibidos para contexto, fora da conta que paga o sistema.</p>
+</div>
 
 <div class="section">
 <h2>Agentes de voz NLP <span class="tag">mín. 5</span></h2>
@@ -114,22 +181,43 @@ button.pinkline:hover{background:#FDEBF4}
 </div>
 
 <div class="section">
+<h2>Capacidade de discagem (voz)</h2>
+<div class="row3">
+  <div><label>Lig./hora/agente</label><input type="number" id="ligHora" min="100" max="800" step="50" value="550"></div>
+  <div><label>Horas/dia (6–8)</label><input type="number" id="horasDia" min="1" max="12" step="1" value="7"></div>
+  <div><label>Dias úteis/mês</label><input type="number" id="diasMes" min="1" max="26" step="1" value="21"></div>
+</div>
+<div style="margin-top:10px">
+  <label>Varreduras de voz por mês</label>
+  <select id="varrVoz">
+    <option value="0">Nenhuma</option>
+    <option value="1">1× ao mês</option>
+    <option value="2">2× ao mês</option>
+    <option value="4" selected>4× ao mês</option>
+    <option value="8">8× ao mês</option>
+    <option value="12">12× (diária útil)</option>
+  </select>
+</div>
+<p class="hint" id="capInfo"></p>
+<p class="hint warn" id="capWarn"></p>
+</div>
+
+<div class="section">
 <h2>Agente de Voz IA (generativa)</h2>
 <div class="row2">
   <div><label>Agentes IA (0 ou ≥5)</label><input type="number" id="qIa" min="0" max="99" step="1" value="0"></div>
-  <div><label>Licença mensal</label><input type="number" value="2300" disabled></div>
+  <div><label>Licença mensal</label><input type="text" class="money" value="2.300" disabled></div>
 </div>
-<label class="check" style="margin-top:8px"><input type="checkbox" id="iaSetup"> Cobrar setup IA (R$ 25.000) — sem compromisso de 12 meses</label>
-<p class="hint">Setup isento no mínimo de 5 agentes com permanência de 12 meses. Franquia mínima: R$ 11.500/mês.</p>
+<label class="check" style="margin-top:8px"><input type="checkbox" id="iaSetup"> Cobrar setup IA (R$ 25.000)</label>
 <p class="hint warn" id="iaWarn"></p>
 </div>
 
 <div class="section">
-<h2>Portal de Negociação — Regularize-ai <span class="tag">24 meses</span></h2>
-<label class="check"><input type="checkbox" id="onPortal"> Contratar portal — setup R$ 12.000 (50% ato + 50% em 30 dias)</label>
+<h2>Portal de Negociação <span class="tag">24 meses</span></h2>
+<label class="check"><input type="checkbox" id="onPortal" checked> Contratar portal — setup R$ 12.000</label>
 <div class="row2" style="margin-top:8px">
-  <div><label>Boletos/CPF por mês (atendimentos)</label><input type="number" id="vPortal" min="0" step="500" value="3000"></div>
-  <div><label>Início do portal</label>
+  <div><label>Boletos/CPF por mês</label><input type="number" id="vPortal" min="0" step="500" value="3000"></div>
+  <div><label>Início</label>
     <select id="portalStart">
       <option value="1" selected>Junto à POC (mês 1)</option>
       <option value="4">No contrato (mês 4)</option>
@@ -141,55 +229,46 @@ button.pinkline:hover{background:#FDEBF4}
 </div>
 
 <div class="section">
-<h2>Chatbot e carteira</h2>
-<div class="row2">
-  <div><label>Chatbot WhatsApp</label>
-    <select id="chat">
-      <option value="-1">Não contratar</option>
-      <option value="1500">1.500 atend. (pacote)</option>
-      <option value="3000" selected>3.000 atend./mês</option>
-      <option value="5000">5.000 atend./mês</option>
-      <option value="10000">10.000 atend./mês</option>
-    </select>
-  </div>
-  <div><label>Carteira (contatos)</label><input type="number" id="cart" min="10000" step="10000" value="150000"></div>
-</div>
+<h2>Chatbot WhatsApp</h2>
+<select id="chat">
+  <option value="-1">Não contratar</option>
+  <option value="1500" selected>1.500 atend. (pacote)</option>
+  <option value="3000">3.000 atend./mês</option>
+  <option value="5000">5.000 atend./mês</option>
+  <option value="10000">10.000 atend./mês</option>
+</select>
+<p class="hint">Régua de acompanhamento dos acordos ativos (média 36 parcelas). Dimensionar pelo nº de acordos.</p>
 </div>
 
 <div class="section">
-<h2>Varredura mensal da carteira</h2>
+<h2>Disparos mensais (mensageria)</h2>
 <div class="channel">
-  <label class="check name"><input type="checkbox" id="onVoz" checked> Agente de voz <small>· incluso*</small></label>
-  <input type="number" id="vVoz" min="0" step="5000" value="150000">
+  <label class="check name"><input type="checkbox" id="onWaU" checked> WhatsApp utility <small>· R$ 0,15</small></label>
+  <input type="number" id="vWaU" min="0" step="500" value="3700">
 </div>
-<div class="channel">
-  <label class="check name"><input type="checkbox" id="onWaU"> WhatsApp utility <small>· R$ 0,15</small></label>
-  <input type="number" id="vWaU" min="0" step="500" value="0">
-</div>
+<p class="chcov" id="covWaU"></p>
 <div class="channel">
   <label class="check name"><input type="checkbox" id="onWaM"> WhatsApp marketing <small>· R$ 0,65</small></label>
   <input type="number" id="vWaM" min="0" step="500" value="0">
 </div>
+<p class="chcov" id="covWaM"></p>
 <div class="channel">
   <label class="check name"><input type="checkbox" id="onSms" checked> SMS comum <small>· R$ 0,065</small></label>
   <input type="number" id="vSms" min="0" step="1000" value="3000">
 </div>
+<p class="chcov" id="covSms"></p>
 <div class="channel">
   <label class="check name"><input type="checkbox" id="onEm" checked> E-mail <small>· R$ 0,0201</small></label>
   <input type="number" id="vEm" min="0" step="1000" value="4000">
 </div>
+<p class="chcov" id="covEm"></p>
 <p class="hint" id="franqInfo"></p>
 </div>
 
 <div class="section">
 <h2>Parâmetros financeiros</h2>
-<label>Honorários sobre o valor recuperado</label>
-<div class="sliderline">
-  <input type="range" id="fee" min="5" max="40" step="1" value="20">
-  <span class="sliderval" id="feeOut">20%</span>
-</div>
-<label class="check" style="margin-top:12px"><input type="checkbox" id="franqPos"> Manter franquia (3.000 SMS + 4.000 e-mails) também no contrato</label>
-<label class="check"><input type="checkbox" id="exit"> Saída antecipada — incide setup NLP (R$ 14.000)</label>
+<label class="check"><input type="checkbox" id="franqPos"> Manter franquia (3.000 SMS + 4.000 e-mails) no contrato</label>
+<label class="check"><input type="checkbox" id="exit"> Saída antecipada — setup NLP (R$ 14.000)</label>
 </div>
 
 <div class="btnrow">
@@ -204,23 +283,32 @@ button.pinkline:hover{background:#FDEBF4}
 
 <div class="hero">
   <div>
-    <div class="lbl">Recuperação para empatar · mês de contrato</div>
-    <div class="big pink" id="beM">—</div>
-    <div class="sub" id="bePerContact">—</div>
+    <div class="lbl">Resultado em 15 meses · base honorários <span class="badge" id="viaBadge">—</span></div>
+    <div class="big" id="margem">—</div>
+    <div class="sub" id="margemSub">—</div>
   </div>
   <div>
-    <div class="lbl">Custo total · POC + 12 meses</div>
-    <div class="big" id="tot15">—</div>
-    <div class="sub" id="beTotal">—</div>
+    <div class="lbl">Recuperação incremental para pagar o sistema</div>
+    <div class="big pink" id="incr">—</div>
+    <div class="sub" id="incrSub">—</div>
   </div>
 </div>
+
+<div class="recbox">
+  <div><div class="k">Recuperação (entra para o credor)</div><div class="v" id="recCredor">—</div></div>
+  <div><div class="k">Honorários (a Contratante fatura)</div><div class="v" id="recHon">—</div></div>
+</div>
+
+<div class="atosbar" id="atosBar">—</div>
+
+<div class="covbox" id="covResumo">—</div>
 
 <div class="cards">
   <div class="mcard"><div class="lbl">POC / mês</div><div class="val" id="mPoc">—</div></div>
   <div class="mcard"><div class="lbl">Contrato / mês</div><div class="val" id="mCon">—</div></div>
-  <div class="mcard"><div class="lbl">Voz NLP + IA / mês</div><div class="val" id="mVoz">—</div></div>
-  <div class="mcard"><div class="lbl">Portal / mês</div><div class="val" id="mPortal">—</div></div>
-  <div class="mcard"><div class="lbl">Setups firmes</div><div class="val" id="mSet">—</div></div>
+  <div class="mcard"><div class="lbl">Honorários / mês</div><div class="val" id="mRev">—</div></div>
+  <div class="mcard"><div class="lbl">Custo total 15 meses</div><div class="val" id="tot15">—</div></div>
+  <div class="mcard"><div class="lbl">HO efetivo médio</div><div class="val" id="hoEff">—</div></div>
   <div class="mcard"><div class="lbl">Cauda portal pós-M15</div><div class="val" id="mTail">—</div></div>
 </div>
 
@@ -235,12 +323,16 @@ button.pinkline:hover{background:#FDEBF4}
 <div class="chartbox"><canvas id="proj" role="img" aria-label="Barras empilhadas dos custos mensais nos 3 meses de POC e 12 meses de contrato, por componente"></canvas></div>
 
 <table id="tbl">
-<thead><tr><th>Mês</th><th>Voz NLP</th><th>IA</th><th>Chatbot</th><th>Portal</th><th>Disparos</th><th>Setups</th><th>Total</th><th>Equilíbrio</th></tr></thead>
+<thead><tr><th>Mês</th><th>Voz NLP</th><th>IA</th><th>Chatbot</th><th>Portal</th><th>Disparos</th><th>Setups</th><th>Custo</th><th>Recuperação</th><th>Honorários</th><th>Margem</th></tr></thead>
 <tbody></tbody>
 </table>
 
+<div class="todo">
+<b>Pendências da coordenação (afetam a projeção):</b> confirmar taxa de HO das carteiras ainda não informadas (assumido 10% para elas); prazo médio real de recebimento por carteira (modelo considera HO no mês do acordo, sem defasagem das ~36 parcelas — leitura otimista de caixa); nº de contratos da nova carteira entrante; tabela de valores de atos por tipo. Crescimento contínuo das carteiras entrantes fica fora do modelo por ora — entra como margem de segurança qualitativa até haver ritmo de entrada e tempo de maturação medidos.
+</div>
+
 <div class="foot">
-<b>Premissas e alertas.</b> Módulos de voz NLP, IA, chatbot e envios: proposta da Contratada. Portal de Negociação Regularize-ai: proposta da Contratada — setup R$ 15.000 com 20% de desconto = R$ 12.000, faturado 50% no ato e 50% em 30 dias (modelado nos dois primeiros meses do portal); mensalidade volumétrica por atendimento = <b>1 emissão de boleto por CPF/contrato/mês</b> (deduplicado), com mínimo de R$ 3.000 e faixas de R$ 1,00 a R$ 0,16; mensalidade inicia após homologação ou 60 dias da assinatura (modelada desde o mês de início selecionado — leitura conservadora). <b>Atenção à tabela em degrau seco</b>: a faixa aplica-se ao volume total, criando quedas de custo ao cruzar faixas (10.000 boletos = R$ 6.000; 10.001 = R$ 3.500) — negociar cálculo marginal ou usar como alavanca. <b>Contrato do portal: 24 meses</b>, multa rescisória = consumo mínimo mensal × meses restantes (card "cauda" mostra a exposição além da janela de 15 meses). Agente IA: setup R$ 25.000 isento com 5 agentes por 12 meses. Franquia POC de 3.000 SMS + 4.000 e-mails — condição negociada, formalizar por escrito. Setup NLP R$ 14.000 contingente à saída antecipada. *Varredura por voz coberta pela mensalidade; <b>telefonia fora de escopo</b>. Reajuste anual IGPM. Valores das propostas incluem impostos.
+<b>Premissas e alertas.</b> Universo: ~3.700 CPFs / ~13 mil contratos / ~R$ 90 mi (coordenação RC, jul/2026); nova carteira entrante +R$ 12 mi / +1.200 CPFs. <b>Recuperação</b> = valor que entra para o credor; <b>Honorários</b> = o que a Contratante fatura (taxa efetiva ponderada: 10% geral, fração a 20%). Recuperação efetiva histórica: mai R$ 200k, jun R$ 250k, jul (prev.) R$ 500k — média ~R$ 300k/mês (padrão do simulador ≈ 4%/ano da volumetria). Meta declarada: R$ 100k/mês só em honorários de êxito. Atos (~R$ 70–90k/mês) exibidos como receita paralela, fora do payback. HO no mês do acordo, sem defasagem das parcelas. Módulos de voz/IA/chatbot/envios e Portal de Negociação: propostas da Contratada (portal em 24 meses, volumétrico por boleto). Telefonia fora de escopo. Franquia POC formalizar por escrito. Reajuste IGPM.
 </div>
 
 </div>
@@ -249,19 +341,30 @@ button.pinkline:hover{background:#FDEBF4}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
+const $ = id => document.getElementById(id);
 const fmt = v => {
   const r = Math.round(v*100)/100;
   const hasCents = Math.round(r*100) % 100 !== 0;
   return 'R$ ' + r.toLocaleString('pt-BR',{minimumFractionDigits: hasCents?2:0, maximumFractionDigits:2});
 };
+const fmtK = v => 'R$ ' + (Math.abs(v)>=1000000 ? (v/1000000).toLocaleString('pt-BR',{maximumFractionDigits:1})+' mi' : Math.round(v).toLocaleString('pt-BR'));
 const P = { neg:[550,525,500,475], loc:[380,355,330,305], pre:[400,375,350,325], rec:[200,175,150,125] };
 const tierNames = ['5 a 15','16 a 30','31 a 50','51+'];
 const emailUnit = v => v <= 500000 ? 0.0201 : v <= 1000000 ? 0.0141 : 0.0111;
-const $ = id => document.getElementById(id);
-let chart, resumo = '';
+let chart, resumo = '', recMode = 'pct', retPctVal = 4;
+
+// --- máscara de moeda pt-BR em inputs de texto ---
+const parseMoney = el => { const d=(el.value||'').replace(/\D/g,''); return d?parseInt(d,10):0; };
+function maskMoney(el){
+  const n = parseMoney(el);
+  el.value = n.toLocaleString('pt-BR');
+}
+document.querySelectorAll('input.money:not([disabled])').forEach(el=>{
+  maskMoney(el);
+  el.addEventListener('input', ()=>{ const pos=el.value.length; maskMoney(el); calc(); });
+});
 
 function tierIdx(t){ return t <= 15 ? 0 : t <= 30 ? 1 : t <= 50 ? 2 : 3; }
-
 function portalUnit(v){
   if (v <= 3000) return 1.00;
   if (v <= 10000) return 0.60;
@@ -272,12 +375,27 @@ function portalUnit(v){
   if (v <= 500000) return 0.19;
   return 0.16;
 }
-function portalCost(v){
-  if (v <= 0) return 3000; // mínimo mensal vigente com portal contratado
-  return Math.max(3000, v * portalUnit(v));
-}
+function portalCost(v){ return v <= 0 ? 3000 : Math.max(3000, v * portalUnit(v)); }
+const varrTxt = x => x >= 100 ? Math.round(x)+'×' : (Math.round(x*100)/100).toLocaleString('pt-BR')+'×';
+
+$('recMode').querySelectorAll('button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    recMode=b.dataset.mode;
+    $('recMode').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+    $('wrapPct').style.display = recMode==='pct'?'':'none';
+    $('wrapRs').style.display = recMode==='rs'?'':'none';
+    calc();
+  });
+});
 
 function calc(){
+  const cont = Math.max(+$('cart').value||1,1);
+  const valC = parseMoney($('valCart'));
+  const contNew = +$('cartNew').value||0;
+  const valNew = parseMoney($('valNew'));
+  const contTot = cont+contNew, valTot = valC+valNew;
+  $('ticketInfo').textContent = 'Total c/ novas: ' + contTot.toLocaleString('pt-BR') + ' CPFs · ' + fmtK(valTot) + ' · ticket médio ' + fmt(valTot/contTot);
+
   const q = { neg:+$('qNeg').value||0, loc:+$('qLoc').value||0, pre:+$('qPre').value||0, rec:+$('qRec').value||0 };
   const tot = q.neg+q.loc+q.pre+q.rec;
   const ti = tierIdx(Math.max(tot,5));
@@ -289,6 +407,42 @@ function calc(){
   const ia = qIa > 0 ? Math.max(qIa,5)*2300 : 0;
   $('iaWarn').textContent = (qIa > 0 && qIa < 5) ? 'Mínimo de 5 agentes IA — franquia de R$ 11.500/mês aplicada.' : '';
 
+  const hoGeral = (+$('hoGeral').value||0)/100;
+  const pctPavei = (+$('pctPavei').value||0)/100;
+  const hoEff = hoGeral*(1-pctPavei) + 0.20*pctPavei;
+  $('hoInfo').textContent = 'HO efetivo ponderado: ' + (hoEff*100).toFixed(1).replace('.',',') + '% (' + Math.round((1-pctPavei)*100) + '% a ' + Math.round(hoGeral*100) + '% + ' + Math.round(pctPavei*100) + '% a 20%).';
+  $('hoEff').textContent = (hoEff*100).toFixed(1).replace('.',',') + '%';
+
+  // Recuperação: modo % ou R$
+  let recupMes, retPct;
+  if (recMode==='pct'){
+    retPct = retPctVal/100;
+    // espelha slider (limitado a 20) e campo numérico (livre)
+    $('ret').value = Math.min(20, Math.max(0.1, retPctVal));
+    if (document.activeElement !== $('retNum')) $('retNum').value = (+retPctVal.toFixed(1));
+    recupMes = valTot*retPct/12;
+    $('retRs').value = Math.round(recupMes).toLocaleString('pt-BR');
+  } else {
+    recupMes = parseMoney($('retRs'));
+    retPct = valTot>0 ? recupMes*12/valTot : 0;
+    retPctVal = +(retPct*100).toFixed(1);
+    $('ret').value = Math.min(20, Math.max(0.1, retPctVal));
+    $('retNum').value = retPctVal;
+  }
+  const revMes = recupMes*hoEff;
+  $('retInfo').textContent = 'Recuperação ' + fmt(recupMes) + '/mês (' + (retPct*100).toFixed(1).replace('.',',') + '%/ano da volumetria) → honorários ' + fmt(revMes) + '/mês. Histórico: R$ 200k–500k/mês.';
+  $('recCredor').textContent = fmt(recupMes) + '/mês';
+  $('recHon').textContent = fmt(revMes) + '/mês';
+
+  const agentesVoz = tot + (qIa>0 ? Math.max(qIa,5) : 0);
+  const lh = +$('ligHora').value||0, hd = +$('horasDia').value||0, dm = +$('diasMes').value||0;
+  const capTotal = lh*hd*dm*agentesVoz;
+  const varrAlvo = +$('varrVoz').value;
+  const ligNecessarias = contTot*varrAlvo;
+  const varrPossiveis = contTot>0 ? capTotal/contTot : 0;
+  $('capInfo').textContent = 'Capacidade: ' + capTotal.toLocaleString('pt-BR') + ' lig./mês → até ' + varrTxt(varrPossiveis) + ' a carteira. Meta: ' + ligNecessarias.toLocaleString('pt-BR') + ' lig.';
+  $('capWarn').textContent = (varrAlvo>0 && ligNecessarias>capTotal) ? 'Capacidade insuficiente para a meta.' : '';
+
   const atend = +$('chat').value;
   const cBot = atend < 0 ? 0 : 3500 + Math.max(0, atend-1500)*0.89;
 
@@ -298,26 +452,18 @@ function calc(){
   const pStart = +$('portalStart').value;
   if (hasPortal){
     const u = portalUnit(vP);
-    $('portalInfo').textContent = 'Faixa: ' + (vP<=3000?'até 3 mil (mínimo R$ 3.000)':'unitário R$ '+u.toFixed(2).replace('.',',')) + ' · mensal ' + fmt(portal) + ' · custo efetivo por boleto R$ ' + (portal/Math.max(vP,1)).toFixed(2).replace('.',',');
-    let cliff = '';
-    const edges = [[10000,0.60,0.35],[25000,0.35,0.31],[50000,0.31,0.26],[100000,0.26,0.22],[250000,0.22,0.19],[500000,0.19,0.16]];
-    for (const [e,uA,uB] of edges){
-      if (vP > e*0.85 && vP <= e){
-        cliff = 'Degrau seco: ' + e.toLocaleString('pt-BR') + ' boletos = ' + fmt(e*uA) + ', mas ' + (e+1).toLocaleString('pt-BR') + ' = ' + fmt((e+1)*uB) + '. Negociar cálculo marginal.';
-        break;
-      }
-    }
-    $('portalCliff').textContent = cliff;
-  } else {
-    $('portalInfo').textContent = 'Portal desativado.';
-    $('portalCliff').textContent = '';
-  }
+    $('portalInfo').textContent = 'Faixa: ' + (vP<=3000?'até 3 mil (mínimo R$ 3.000)':'unitário R$ '+u.toFixed(2).replace('.',',')) + ' · mensal ' + fmt(portal);
+    let cliff=''; const edges=[[10000,0.60,0.35],[25000,0.35,0.31],[50000,0.31,0.26],[100000,0.26,0.22]];
+    for(const [e] of edges){ if(vP>e*0.85&&vP<=e){ cliff='Degrau seco em '+e.toLocaleString('pt-BR')+' boletos — negociar cálculo marginal.'; break; } }
+    $('portalCliff').textContent=cliff;
+  } else { $('portalInfo').textContent='Portal desativado.'; $('portalCliff').textContent=''; }
 
-  const nVoz = $('onVoz').checked ? +$('vVoz').value||0 : 0;
   const nWaU = $('onWaU').checked ? +$('vWaU').value||0 : 0;
   const nWaM = $('onWaM').checked ? +$('vWaM').value||0 : 0;
   const nSms = $('onSms').checked ? +$('vSms').value||0 : 0;
   const nEm  = $('onEm').checked ? +$('vEm').value||0 : 0;
+  const cov = (n,el) => { $(el).textContent = n>0 ? '↳ cobre ' + Math.round(n/contTot*100) + '% dos CPFs (' + varrTxt(n/contTot) + ')' : ''; };
+  cov(nWaU,'covWaU'); cov(nWaM,'covWaM'); cov(nSms,'covSms'); cov(nEm,'covEm');
 
   function disparos(poc){
     const fr = poc || $('franqPos').checked;
@@ -326,17 +472,14 @@ function calc(){
     return nWaU*0.15 + nWaM*0.65 + sms + em;
   }
   const dPoc = disparos(true), dCon = disparos(false);
-
-  const setFirm = (atend >= 0 ? 10500 : 0) + (hasPortal ? 12000 : 0) + ((qIa > 0 && $('iaSetup').checked) ? 25000 : 0);
-  const setCont = $('exit').checked ? 14000 : 0;
-  const fee = +$('fee').value/100;
-  $('feeOut').textContent = Math.round(fee*100) + '%';
-
   const exSms = Math.max(0,nSms-3000), exEm = Math.max(0,nEm-4000);
-  $('franqInfo').textContent = 'Franquia POC: 3.000 SMS + 4.000 e-mails grátis · excedente atual: ' + exSms.toLocaleString('pt-BR') + ' SMS, ' + exEm.toLocaleString('pt-BR') + ' e-mails.';
+  $('franqInfo').textContent = 'Franquia POC: 3.000 SMS + 4.000 e-mails grátis · excedente: ' + exSms.toLocaleString('pt-BR') + ' SMS, ' + exEm.toLocaleString('pt-BR') + ' e-mails.';
 
-  const a1=[],a2=[],a3=[],a4=[],a5=[],a6=[],rows=[];
-  let acc=0, recPoc=0, recCon=0;
+  const setCont = $('exit').checked ? 14000 : 0;
+  const atos = parseMoney($('atos'));
+
+  const a=[[],[],[],[],[],[]], rows=[];
+  let acc=0, recPocC=0, recConC=0;
   for(let m=1;m<=15;m++){
     const poc = m<=3;
     const d = poc?dPoc:dCon;
@@ -350,81 +493,98 @@ function calc(){
     if(m===15) s+=setCont;
     const t = vozNlp+ia+cBot+pCost+d+s;
     acc+=t;
-    if(m===1) recPoc = vozNlp+ia+cBot+(hasPortal&&pStart===1?portal:0)+dPoc;
-    if(m===15) recCon = vozNlp+ia+cBot+(hasPortal?portal:0)+dCon;
-    a1.push(vozNlp); a2.push(ia); a3.push(Math.round(cBot)); a4.push(Math.round(pCost)); a5.push(Math.round(d)); a6.push(s);
-    rows.push({m,poc,vozNlp,ia,bot:cBot,portal:pCost,d,s,t,be:t/fee});
+    if(m===1) recPocC = vozNlp+ia+cBot+(hasPortal&&pStart===1?portal:0)+dPoc;
+    if(m===15) recConC = vozNlp+ia+cBot+(hasPortal?portal:0)+dCon;
+    a[0].push(vozNlp); a[1].push(ia); a[2].push(Math.round(cBot)); a[3].push(Math.round(pCost)); a[4].push(Math.round(d)); a[5].push(s);
+    rows.push({m,poc,vozNlp,ia,bot:cBot,portal:pCost,d,s,t,rec:recupMes,rev:revMes,mar:revMes-t});
   }
 
-  // Cauda do portal: contrato de 24 meses além da janela de 15
+  const revTotal = revMes*15;
+  const margem = revTotal - acc;
+  const viavel = margem >= 0;
+  $('margem').textContent = (margem<0?'−':'') + fmtK(Math.abs(margem));
+  $('margem').className = 'big ' + (viavel?'ok':'bad');
+  $('margemSub').textContent = 'Honorários ' + fmtK(revTotal) + ' − custo ' + fmtK(acc) + ' · recuperação ' + fmt(recupMes) + '/mês a ' + (hoEff*100).toFixed(1).replace('.',',') + '% HO';
+  $('viaBadge').textContent = viavel ? 'VIÁVEL' : 'INVIÁVEL';
+  $('viaBadge').className = 'badge ' + (viavel?'ok':'bad');
+
+  const custoMesMedio = acc/15;
+  const incrRecup = hoEff>0 ? custoMesMedio/hoEff : 0;
+  const recAtual = 300000;
+  $('incr').textContent = fmtK(incrRecup) + '/mês';
+  $('incrSub').textContent = 'Recuperação adicional/mês que cobre o custo · +' + Math.round(incrRecup/recAtual*100) + '% sobre os ~R$ 300k recentes';
+
+  $('atosBar').innerHTML = '<b>Receita paralela de atos:</b> ' + fmt(atos) + '/mês — fora do veredito. Somando atos + honorários de êxito, a receita da área fica em ~' + fmt(atos+revMes) + '/mês.';
+
+  const totalAbord = ligNecessarias + nWaU + nWaM + nSms + nEm;
+  $('covResumo').innerHTML = '<b>Alcance mensal:</b> voz ' + ligNecessarias.toLocaleString('pt-BR') + ' lig. (' + varrTxt(varrAlvo) + ') · mensageria ' + (nWaU+nWaM+nSms+nEm).toLocaleString('pt-BR') + ' envios · <b>total ' + totalAbord.toLocaleString('pt-BR') + ' abordagens = ' + varrTxt(totalAbord/contTot) + ' a carteira de ' + contTot.toLocaleString('pt-BR') + ' CPFs</b>';
+
+  $('mPoc').textContent = fmt(recPocC);
+  $('mCon').textContent = fmt(recConC);
+  $('mRev').textContent = fmt(revMes);
+  $('tot15').textContent = fmt(acc);
   const tailMonths = hasPortal ? Math.max(0, 24 - (15 - pStart + 1)) : 0;
-  const tail = tailMonths * 3000;
+  $('mTail').textContent = hasPortal ? fmt(tailMonths*3000) + ' (' + tailMonths + 'm)' : '—';
 
-  const total = acc;
-  const cont = +$('cart').value||1;
-  const beMon = recCon/fee;
-  $('beM').textContent = fmt(beMon) + '/mês';
-  $('bePerContact').textContent = 'R$ ' + (beMon/cont).toFixed(2).replace('.',',') + ' recuperado por contato da carteira, a ' + Math.round(fee*100) + '% de honorários';
-  $('tot15').textContent = fmt(total);
-  $('beTotal').textContent = 'Recuperação acumulada de equilíbrio: ' + fmt(total/fee);
-  $('mPoc').textContent = fmt(recPoc);
-  $('mCon').textContent = fmt(recCon);
-  $('mVoz').textContent = fmt(vozNlp + ia);
-  $('mPortal').textContent = hasPortal ? fmt(portal) : '—';
-  $('mSet').textContent = fmt(setFirm);
-  $('mTail').textContent = hasPortal ? fmt(tail) + ' (' + tailMonths + 'm × mín.)' : '—';
-
-  [a1,a2,a3,a4,a5,a6].forEach((a,i)=>chart.data.datasets[i].data=a);
+  a.forEach((arr,i)=>chart.data.datasets[i].data=arr);
   chart.update();
 
-  const tb = document.querySelector('#tbl tbody');
-  tb.innerHTML='';
+  const tb = document.querySelector('#tbl tbody'); tb.innerHTML='';
   rows.forEach(r=>{
-    const tr=document.createElement('tr');
-    if(r.poc) tr.className='poc';
-    tr.innerHTML='<td>'+(r.poc?'POC '+r.m:'M'+(r.m-3))+'</td><td>'+fmt(r.vozNlp)+'</td><td>'+fmt(r.ia)+'</td><td>'+fmt(r.bot)+'</td><td>'+fmt(r.portal)+'</td><td>'+fmt(r.d)+'</td><td>'+(r.s?fmt(r.s):'—')+'</td><td>'+fmt(r.t)+'</td><td>'+fmt(r.be)+'</td>';
+    const tr=document.createElement('tr'); if(r.poc) tr.className='poc';
+    tr.innerHTML='<td>'+(r.poc?'POC '+r.m:'M'+(r.m-3))+'</td><td>'+fmt(r.vozNlp)+'</td><td>'+fmt(r.ia)+'</td><td>'+fmt(r.bot)+'</td><td>'+fmt(r.portal)+'</td><td>'+fmt(r.d)+'</td><td>'+(r.s?fmt(r.s):'—')+'</td><td>'+fmt(r.t)+'</td><td>'+fmt(r.rec)+'</td><td>'+fmt(r.rev)+'</td><td>'+fmt(r.mar)+'</td>';
     tb.appendChild(tr);
   });
   const sum = k => rows.reduce((s,r)=>s+r[k],0);
-  const trT=document.createElement('tr');
-  trT.className='total';
-  trT.innerHTML='<td>Total 15 meses</td><td>'+fmt(sum('vozNlp'))+'</td><td>'+fmt(sum('ia'))+'</td><td>'+fmt(sum('bot'))+'</td><td>'+fmt(sum('portal'))+'</td><td>'+fmt(sum('d'))+'</td><td>'+fmt(sum('s'))+'</td><td>'+fmt(acc)+'</td><td>'+fmt(acc/fee)+'</td>';
+  const trT=document.createElement('tr'); trT.className='total';
+  trT.innerHTML='<td>Total 15 meses</td><td>'+fmt(sum('vozNlp'))+'</td><td>'+fmt(sum('ia'))+'</td><td>'+fmt(sum('bot'))+'</td><td>'+fmt(sum('portal'))+'</td><td>'+fmt(sum('d'))+'</td><td>'+fmt(sum('s'))+'</td><td>'+fmt(acc)+'</td><td>'+fmt(sum('rec'))+'</td><td>'+fmt(revTotal)+'</td><td>'+fmt(margem)+'</td>';
   tb.appendChild(trT);
 
-  resumo = 'Simulação Contratada — Contratante (v3)\n' +
-    'NLP: ' + q.neg + ' Neg, ' + q.loc + ' Loc, ' + q.pre + ' Prev, ' + q.rec + ' Rec (faixa ' + tierNames[ti] + ') = ' + fmt(vozNlp) + '/mês\n' +
-    'IA: ' + (qIa>0 ? qIa + ' agentes = ' + fmt(ia) + '/mês' + ($('iaSetup').checked?' + setup R$ 25.000':' (setup isento 12m)') : 'não') + '\n' +
-    'Portal Regularize-ai: ' + (hasPortal ? vP.toLocaleString('pt-BR') + ' boletos/mês = ' + fmt(portal) + '/mês + setup R$ 12.000 (24 meses, cauda ' + fmt(tail) + ')' : 'não') + '\n' +
-    'Chatbot: ' + (atend<0?'não':atend.toLocaleString('pt-BR')+' atend. = '+fmt(cBot)+'/mês') + ' · Disparos contrato: ' + fmt(dCon) + '/mês\n' +
-    'POC/mês: ' + fmt(recPoc) + ' · Contrato/mês: ' + fmt(recCon) + ' · Total 15m: ' + fmt(total) + '\n' +
-    'Equilíbrio a ' + Math.round(fee*100) + '%: ' + fmt(beMon) + '/mês (R$ ' + (beMon/cont).toFixed(2).replace('.',',') + '/contato)';
+  resumo = 'Simulação de viabilidade v7 — Contratante\n' +
+    'Carteira: ' + contTot.toLocaleString('pt-BR') + ' CPFs · ' + fmtK(valTot) + '\n' +
+    'Recuperação (credor): ' + fmt(recupMes) + '/mês · Honorários (Contratante): ' + fmt(revMes) + '/mês (HO efetivo ' + (hoEff*100).toFixed(1).replace('.',',') + '%)\n' +
+    'Atos (paralelo): ' + fmt(atos) + '/mês · receita total área ~' + fmt(atos+revMes) + '/mês\n' +
+    'Custo: POC ' + fmt(recPocC) + '/mês · contrato ' + fmt(recConC) + '/mês · 15m ' + fmt(acc) + '\n' +
+    'Margem (só honorários): ' + fmtK(margem) + ' (' + (viavel?'VIÁVEL':'INVIÁVEL') + ')\n' +
+    'Recuperação incremental p/ pagar o sistema: ' + fmtK(incrRecup) + '/mês (+' + Math.round(incrRecup/recAtual*100) + '%)';
 }
 
 function setVals(map){
   Object.entries(map).forEach(([id,v])=>{
-    const el=$(id);
-    if(el.type==='checkbox') el.checked=v; else el.value=v;
+    if(id==='ret'){ retPctVal=+v; $('ret').value=Math.min(20,Math.max(0.1,+v)); $('retNum').value=+v; return; }
+    const el=$(id); if(!el) return;
+    if(el.type==='checkbox') el.checked=v;
+    else if(el.classList && el.classList.contains('money')) el.value=(+v).toLocaleString('pt-BR');
+    else el.value=v;
   });
   calc();
 }
-
-function presetBase(){
-  setVals({qNeg:3,qLoc:2,qPre:0,qRec:0,qIa:0,iaSetup:false,chat:3000,
-    onPortal:false,vPortal:3000,portalStart:1,
-    onVoz:true,vVoz:150000,onWaU:false,vWaU:0,onWaM:false,vWaM:0,onSms:true,vSms:3000,onEm:true,vEm:4000,
-    cart:150000,fee:20,franqPos:false,exit:false});
+function presetReal(){
+  recMode='pct'; $('recMode').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.mode==='pct'));
+  $('wrapPct').style.display=''; $('wrapRs').style.display='none';
+  setVals({cart:3700,valCart:90000000,cartNew:1200,valNew:12000000,ret:4,hoGeral:10,pctPavei:15,atos:75000,
+    qNeg:3,qLoc:2,qPre:0,qRec:0,ligHora:550,horasDia:7,diasMes:21,varrVoz:4,qIa:0,iaSetup:false,
+    onPortal:true,vPortal:3000,portalStart:1,chat:1500,
+    onWaU:true,vWaU:3700,onWaM:false,vWaM:0,onSms:true,vSms:3000,onEm:true,vEm:4000,franqPos:false,exit:false});
+}
+function presetAilos(){
+  recMode='pct'; $('recMode').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.mode==='pct'));
+  $('wrapPct').style.display=''; $('wrapRs').style.display='none';
+  setVals({cart:600,valCart:22000000,cartNew:1200,valNew:12000000,ret:6,hoGeral:10,pctPavei:0,atos:40000,
+    qNeg:3,qLoc:2,qPre:0,qRec:0,ligHora:550,horasDia:7,diasMes:21,varrVoz:4,qIa:0,iaSetup:false,
+    onPortal:true,vPortal:2000,portalStart:1,chat:1500,
+    onWaU:true,vWaU:1800,onWaM:false,vWaM:0,onSms:true,vSms:3000,onEm:true,vEm:4000,franqPos:false,exit:false});
+}
+function presetMeta(){
+  recMode='rs'; $('recMode').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.mode==='rs'));
+  $('wrapPct').style.display='none'; $('wrapRs').style.display='';
+  setVals({cart:3700,valCart:90000000,cartNew:1200,valNew:12000000,retRs:1000000,hoGeral:10,pctPavei:15,atos:75000,
+    qNeg:3,qLoc:2,qPre:0,qRec:0,ligHora:550,horasDia:7,diasMes:21,varrVoz:4,qIa:0,iaSetup:false,
+    onPortal:true,vPortal:3000,portalStart:1,chat:3000,
+    onWaU:true,vWaU:3700,onWaM:false,vWaM:0,onSms:true,vSms:5000,onEm:true,vEm:6000,franqPos:false,exit:false});
 }
 
-function presetImagem(){
-  setVals({qNeg:5,qLoc:0,qPre:5,qRec:0,qIa:5,iaSetup:true,chat:1500,
-    onPortal:true,vPortal:3000,portalStart:1,
-    onVoz:false,vVoz:0,onWaU:true,vWaU:1500,onWaM:true,vWaM:1500,onSms:true,vSms:3000,onEm:true,vEm:4000,
-    cart:150000,fee:20,franqPos:false,exit:false});
-}
-
-function copiarResumo(){
-  navigator.clipboard.writeText(resumo).then(()=>alert('Resumo copiado.'));
-}
+function copiarResumo(){ navigator.clipboard.writeText(resumo).then(()=>alert('Resumo copiado.')); }
 
 chart = new Chart($('proj'), {
   type:'bar',
@@ -449,7 +609,10 @@ chart = new Chart($('proj'), {
   }
 });
 
-['qNeg','qLoc','qPre','qRec','qIa','iaSetup','chat','onPortal','vPortal','portalStart','onVoz','vVoz','onWaU','vWaU','onWaM','vWaM','onSms','vSms','onEm','vEm','cart','fee','franqPos','exit'].forEach(id=>$(id).addEventListener('input',calc));
+['cart','cartNew','hoGeral','pctPavei','qNeg','qLoc','qPre','qRec','ligHora','horasDia','diasMes','varrVoz','qIa','iaSetup','onPortal','vPortal','portalStart','chat','onWaU','vWaU','onWaM','vWaM','onSms','vSms','onEm','vEm','franqPos','exit'].forEach(id=>$(id).addEventListener('input',calc));
+$('retRs').addEventListener('input',calc);
+$('ret').addEventListener('input',()=>{ retPctVal = +$('ret').value; recMode='pct'; calc(); });
+$('retNum').addEventListener('input',()=>{ const v=parseFloat($('retNum').value); if(!isNaN(v)){ retPctVal=Math.max(0,v); recMode='pct'; calc(); } });
 calc();
 </script>
 </body>
