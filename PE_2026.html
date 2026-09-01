@@ -253,7 +253,7 @@ function render(){
   document.getElementById('rodape').innerHTML=
     `Farol conforme a coluna Farol do Actio. Concluído = <b>Concluída + Concluída fora do prazo</b> sobre o total menos canceladas. `+
     `Prazo inicial = término previsto no Actio; prazo repactuado = data mais futura registrada na TAG. `+
-    `Base: relatório de ações com término previsto até ${fmt(FIM)}, todas marcadas KR Prioritário. Verde não é detalhado.`;
+    `Base: relatório de ações com término previsto até ${fmt(FIM)}, todas marcadas KR Prioritário. Verde não é detalhado..`;
 }
 document.getElementById('placar').addEventListener('click',e=>{
   if(e.target.closest('.tile[data-todos]')){ S.o=null; render(); return; }
