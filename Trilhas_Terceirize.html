@@ -1,11 +1,9 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Relatório das Trilhas | Terceirize+</title>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Relatório das Trilhas IA</title>
   <style>
-    :root { --g:#108451; --g2:#075d3a; --ink:#17231c; --mut:#657168; --line:#dbe6df; --bg:#f3f6f4; --mint:#e7f6ee; --amber:#a96800; --amberbg:#fff3d7; }
+    :root { --g:#108451; --g2:#075d3a; --ink:#17231c; --mut:#657168; --line:#dbe6df; --bg:#f3f6f4; --surf:#ffffff; --surf2:#fafcfb; --row:#edf1ee; --track:#e8efeb; --mint:#e7f6ee; --okfg:#087345; --nobg:#f0f2f1; --nofg:#6b746f; --nabg:#eef2ff; --nafg:#596283; --amber:#a96800; --amberbg:#fff3d7; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --g:#4fc98c; --g2:#1f9a62; --ink:#e3ece6; --mut:#98a69d; --line:#2a3a31; --bg:#0f1713; --surf:#16211b; --surf2:#1a261f; --row:#243229; --track:#243229; --mint:#143726; --okfg:#6fdca5; --nobg:#232d27; --nofg:#a3aea7; --nabg:#222842; --nafg:#aab3dc; --amber:#f0b44c; --amberbg:#3a2c10; color-scheme:dark; } }
+    :root[data-theme="dark"] { --g:#4fc98c; --g2:#1f9a62; --ink:#e3ece6; --mut:#98a69d; --line:#2a3a31; --bg:#0f1713; --surf:#16211b; --surf2:#1a261f; --row:#243229; --track:#243229; --mint:#143726; --okfg:#6fdca5; --nobg:#232d27; --nofg:#a3aea7; --nabg:#222842; --nafg:#aab3dc; --amber:#f0b44c; --amberbg:#3a2c10; color-scheme:dark; }
     * { box-sizing:border-box; }
     body { margin:0; background:var(--bg); color:var(--ink); font-family:Inter,Segoe UI,Arial,sans-serif; }
     .wrap { max-width:1160px; margin:auto; padding:28px; }
@@ -16,33 +14,39 @@
     h1 { font-size:38px; line-height:1.08; margin:8px 0 12px; } h2 { margin:0 0 7px; } h3 { margin:10px 0 6px; }
     .sub { max-width:900px; color:#d7ede2; line-height:1.6; }
     .kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin:18px 0; }
-    .kpi, section { background:#fff; border:1px solid var(--line); border-radius:20px; }
+    .kpi, section { background:var(--surf); border:1px solid var(--line); border-radius:20px; }
     .kpi { padding:18px; } .kpi b { display:block; font-size:30px; color:var(--g); } .kpi span,.note { color:var(--mut); font-size:12px; }
-    section { padding:24px; margin:18px 0; }
+    section { padding:24px; margin:18px 0; min-width:0; }
+    .kpi b,.big,td { font-variant-numeric:tabular-nums; }
     .trail-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:16px; }
     .trail-card { border:1px solid var(--line); border-radius:18px; padding:20px; }
     .trail-card ol { padding-left:20px; } .trail-card li { padding:5px 0; } .trail-card li span { float:right; color:var(--mut); }
     .flag { display:inline-block; background:var(--amberbg); color:var(--amber); padding:5px 9px; border-radius:999px; font-size:11px; font-weight:800; }
     .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:15px; }
     .card { border:1px solid var(--line); border-radius:16px; padding:18px; } .big { font-size:34px; font-weight:900; color:var(--g); }
-    .bar { height:12px; background:#e8efeb; border-radius:99px; overflow:hidden; margin:10px 0; } .bar i { display:block; height:100%; background:linear-gradient(90deg,var(--g2),#42bb7d); }
-    details { background:#fafcfb; border:1px solid var(--line); border-radius:15px; margin:12px 0; }
+    .bar { height:12px; background:var(--track); border-radius:99px; overflow:hidden; margin:10px 0; } .bar i { display:block; height:100%; background:linear-gradient(90deg,var(--g2),#42bb7d); }
+    details { background:var(--surf2); border:1px solid var(--line); border-radius:15px; margin:12px 0; }
     summary { cursor:pointer; padding:16px 18px; font-weight:800; color:var(--g); list-style:none; } summary::-webkit-details-marker { display:none; } summary::after { content:'⌄'; float:right; font-size:20px; } details[open] summary::after { content:'⌃'; }
     details .inside { padding:0 18px 18px; overflow:auto; }
-    table { width:100%; border-collapse:collapse; font-size:13px; } th,td { padding:10px; border-bottom:1px solid #edf1ee; text-align:left; } th { font-size:11px; text-transform:uppercase; letter-spacing:.7px; color:var(--mut); }
-    .pill { display:inline-block; border-radius:999px; padding:5px 8px; font-size:11px; font-weight:800; } .pill.ok { background:var(--mint); color:#087345; } .pill.no { background:#f0f2f1; color:#6b746f; } .pill.na { background:#eef2ff; color:#596283; }
+    table { width:100%; border-collapse:collapse; font-size:13px; } th,td { padding:10px; border-bottom:1px solid var(--row); text-align:left; } th { font-size:11px; text-transform:uppercase; letter-spacing:.7px; color:var(--mut); }
+    .pill { display:inline-block; border-radius:999px; padding:5px 8px; font-size:11px; font-weight:800; } .pill.ok { background:var(--mint); color:var(--okfg); } .pill.no { background:var(--nobg); color:var(--nofg); } .pill.na { background:var(--nabg); color:var(--nafg); }
+    .dir-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin-top:15px; }
+    .dir-card { border:1px solid var(--line); border-radius:16px; padding:16px; display:flex; flex-direction:column; gap:6px; min-width:0; }
+    .dir-card h3 { margin:0; font-size:15px; } .dir-card .lead { color:var(--mut); font-size:12px; }
+    .dir-row { display:grid; grid-template-columns:28px 1fr auto; gap:8px; align-items:center; font-size:12px; font-variant-numeric:tabular-nums; }
+    .dir-row .bar { margin:0; height:8px; }
+    .dir-block summary small { color:var(--mut); font-weight:600; margin-left:6px; }
+    .filters { display:flex; flex-wrap:wrap; gap:10px; margin:10px 0 14px; } .filters input,.filters select { flex:1 1 220px; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:var(--surf); color:var(--ink); font:inherit; }
     footer { text-align:center; color:var(--mut); font-size:11px; padding:10px; }
-    @media(max-width:900px) { .kpis { grid-template-columns:repeat(2,1fr); } .trail-grid,.cards { grid-template-columns:1fr; } .wrap { padding:13px; } h1 { font-size:29px; } }
-    @media print { body { background:#fff; } .wrap { max-width:none; padding:0; } .hero,section { break-inside:avoid; } details summary { display:none; } details .inside { display:block; } }
+    @media(max-width:900px) { .kpis { grid-template-columns:repeat(2,1fr); } .hero { padding:26px 22px; } section { padding:18px; } .trail-grid,.cards { grid-template-columns:1fr; } .wrap { padding:13px; } h1 { font-size:29px; } }
+    @media print { .wrap { max-width:none; padding:0; } .hero,section { break-inside:avoid; } details summary { display:none; } details .inside { display:block; } }
   </style>
-</head>
-<body>
   <main class="wrap">
     <header class="hero">
       <div class="brand">TERCEIRIZE<span>+</span></div>
       <div class="eye">Programa de IA Corporativa</div>
       <h1>Acompanhamento das Trilhas T1 a T5</h1>
-      <p class="sub">Situação das trilhas conforme a tabela fornecida. Relatório atualizado em 22/09/2026.</p>
+      <p class="sub">Situação das trilhas conforme a tabela fornecida. Relatório atualizado em 29/09/2026.</p>
     </header>
     <div class="kpis" id="kpis"></div>
     <section>
@@ -52,17 +56,23 @@
     </section>
     <section>
       <h2>Progresso por trilha</h2>
-      <p class="note">Nas trilhas T3, T4 e T5, o denominador considera apenas o público elegível. Os blocos de Diretoria e gestão aparecem antes da lista geral.</p>
+      <p class="note">Nas trilhas T3, T4 e T5, o denominador considera apenas o público elegível. Os blocos por diretoria, Diretoria e gestão aparecem antes da lista geral.</p>
       <div class="cards" id="progress"></div>
     </section>
     <section>
+      <h2>Por diretoria</h2>
+      <p class="note">Cada diretoria vê o próprio time. T1 e T2 contam todas as pessoas da diretoria; T4 e T5 contam só quem é elegível. Abra a diretoria abaixo para ver pessoa a pessoa.</p>
+      <div class="dir-grid" id="dir-cards"></div>
+      <div id="dir-lists" style="margin-top:14px"></div>
+    </section>
+    <section>
       <h2>Diretoria</h2>
-      <div class="inside" id="directors"></div>
+      <div class="inside" id="directors" style="overflow:auto"></div>
     </section>
     <section>
       <h2>Gerentes e coordenadores corporativos</h2>
       <p class="note">Gerente de Filiais permanece nesta lista. Gerentes e coordenadores de filial aparecem apenas na lista geral.</p>
-      <div class="inside" id="management"></div>
+      <div class="inside" id="management" style="overflow:auto"></div>
     </section>
     <section>
       <h2>Detalhamento das Trilhas</h2>
@@ -70,11 +80,11 @@
     </section>
     <section>
       <h2>Todos os usuários contabilizados</h2>
-      <p class="note">Use a busca para localizar uma pessoa ou cargo.</p>
-      <input id="search" type="search" placeholder="Buscar por nome ou cargo" style="width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;margin:10px 0 14px">
-      <div style="overflow:auto"><table><thead><tr><th>Nome</th><th>Cargo</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody id="all-users"></tbody></table></div>
+      <p class="note">Use a busca ou o filtro de diretoria para localizar uma pessoa ou cargo.</p>
+      <div class="filters"><input id="search" type="search" placeholder="Buscar por nome ou cargo" aria-label="Buscar por nome ou cargo"><select id="dir-filter" aria-label="Filtrar por diretoria"><option value="">Todas as diretorias</option></select></div>
+      <div style="overflow:auto"><table><thead><tr><th>Nome</th><th>Cargo</th><th>Diretoria</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody id="all-users"></tbody></table></div>
     </section>
-    <footer>Atualizado em 22/09/2026 · Fonte: dados fornecidos pelo usuário</footer>
+    <footer>Atualizado em 29/09/2026 · Fonte: dados fornecidos pelo usuário</footer>
   </main>
   <script>
     const users = [
@@ -82,6 +92,7 @@
     "nome": "Aldiney Duarte",
     "email": "aldiney.duarte@terceirizemais.com.br",
     "cargo": "Gerente de filial",
+    "diretoria": "Diretoria de Operação",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -95,6 +106,7 @@
     "nome": "Alessandra Maria Da Costa Demetrio",
     "email": "alessandra.demetrio@terceirizemais.com.br",
     "cargo": "Gerente de DP",
+    "diretoria": "Diretoria de Pessoas",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -108,6 +120,7 @@
     "nome": "Aline Cappelli",
     "email": "aline.cappelli@terceirizemais.com.br",
     "cargo": "Gerente de filial",
+    "diretoria": "Diretoria de Operação",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -121,6 +134,7 @@
     "nome": "Aline Chamerk",
     "email": "aline.chamerk@terceirizemais.com.br",
     "cargo": "Coordenador (a) de filial",
+    "diretoria": "Diretoria de Operação",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -134,6 +148,7 @@
     "nome": "Aline Goulart Barbieri",
     "email": "aline.barbieri@terceirizemais.com.br",
     "cargo": "Coordenadora Foods",
+    "diretoria": "Diretoria Foods",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -147,6 +162,7 @@
     "nome": "Ana Araujo",
     "email": "ana.araujo@terceirizemais.com.br",
     "cargo": "Estagiaria de T.I",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -160,6 +176,7 @@
     "nome": "Anderson",
     "email": "anderson.ribeiro@terceirizemais.com.br",
     "cargo": "Especialista De Licitações",
+    "diretoria": "Diretoria Negocial",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -173,6 +190,7 @@
     "nome": "Andre Gilson Desoti",
     "email": "contratos@costaoesteserv.com.br",
     "cargo": "Gerente de Contratos",
+    "diretoria": "Diretoria Negocial",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -185,7 +203,8 @@
   {
     "nome": "André Mantovani",
     "email": "andre.mantovani@terceirizemais.com.br",
-    "cargo": "Especialista CCO",
+    "cargo": "Especialista Supply chain",
+    "diretoria": "Diretoria de Operação",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -199,6 +218,7 @@
     "nome": "André Staffen",
     "email": "andre.staffen@terceirizemais.com.br",
     "cargo": "Gerente de filial",
+    "diretoria": "Diretoria de Operação",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -212,6 +232,7 @@
     "nome": "Anne Zanco",
     "email": "anne.zanco@terceirizemais.com.br",
     "cargo": "Analista de Contratos",
+    "diretoria": "Diretoria Negocial",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -225,6 +246,7 @@
     "nome": "Artur Rossi",
     "email": "artur.rossi@terceirizemais.com.br",
     "cargo": "Especialista de T.I",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -238,6 +260,7 @@
     "nome": "C. Weslei de Freitas",
     "email": "carlos.freitas@terceirizemais.com.br",
     "cargo": "Gerente de Filiais",
+    "diretoria": "Diretoria de Operação",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -251,6 +274,7 @@
     "nome": "Celio Soares",
     "email": "celio.soares@terceirizemais.com.br",
     "cargo": "Coordenador de contratos",
+    "diretoria": "Diretoria Negocial",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -264,6 +288,7 @@
     "nome": "Chalissa Gomes",
     "email": "chalissa.gomes@terceirizemais.com.br",
     "cargo": "Analista de SGQ/SGI",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -277,6 +302,7 @@
     "nome": "Clayton Rosa",
     "email": "clayton.rosa@terceirizemais.com.br",
     "cargo": "Gerente Comercial",
+    "diretoria": "Diretoria Negocial",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -290,6 +316,7 @@
     "nome": "Débora Maciel",
     "email": "debora.maciel@terceirizemais.com.br",
     "cargo": "Especialista de Faturamento",
+    "diretoria": "Diretoria Negocial",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -303,11 +330,12 @@
     "nome": "Dener Santos",
     "email": "dener.santos@terceirizemais.com.br",
     "cargo": "Estagiario de T.I",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": true,
     "t3": false,
-    "t4": false,
-    "t5": false,
+    "t4": true,
+    "t5": true,
     "elig3": false,
     "elig4": true,
     "elig5": true
@@ -316,6 +344,7 @@
     "nome": "Denise Dias Silva",
     "email": "denise.silva@terceirizemais.com.br",
     "cargo": "Gerente de filial",
+    "diretoria": "Diretoria de Operação",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -329,6 +358,7 @@
     "nome": "Diogo Escher",
     "email": "diogo.escher@terceirizemais.com.br",
     "cargo": "Controler",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -342,6 +372,7 @@
     "nome": "Eduardo Santos",
     "email": "eduardo.santos@terceirizemais.com.br",
     "cargo": "Coordenador de Frotas",
+    "diretoria": "Diretoria de Operação",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -355,6 +386,7 @@
     "nome": "Eric Nunes",
     "email": "eric.nunes@terceirizemais.com.br",
     "cargo": "Analista de R&S",
+    "diretoria": "Diretoria de Pessoas",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -368,6 +400,7 @@
     "nome": "Everton Pardinho",
     "email": "everton.pardinho@terceirizemais.com.br",
     "cargo": "Analista de DHO",
+    "diretoria": "Diretoria de Pessoas",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -381,6 +414,7 @@
     "nome": "Fernando Adriano Gomes",
     "email": "fernando.gomes@terceirizemais.com.br",
     "cargo": "Gerente Supply chain",
+    "diretoria": "Diretoria de Operação",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -394,6 +428,7 @@
     "nome": "Gabriel Foscarini",
     "email": "gabriel.foscarini@terceirizemais.com.br",
     "cargo": "Estagiário de Planejamento",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -407,6 +442,7 @@
     "nome": "Gabriel Leal Arnhold",
     "email": "gabriel.leal@terceirizemais.com.br",
     "cargo": "Auxiliar de contratos",
+    "diretoria": "Diretoria Negocial",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -420,6 +456,7 @@
     "nome": "Gabriel Penasso",
     "email": "gabriel.penasso@terceirizemais.com.br",
     "cargo": "Especialista de sistema de Folha",
+    "diretoria": "Diretoria de Pessoas",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -433,6 +470,7 @@
     "nome": "Gabriela Galvan",
     "email": "gabriela.galvan@terceirizemais.com.br",
     "cargo": "Especialista De Licitações",
+    "diretoria": "Diretoria Negocial",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -446,6 +484,7 @@
     "nome": "Gislaine Rosa",
     "email": "faturamento@costaoesteserv.com.br",
     "cargo": "Especialista de Faturamento",
+    "diretoria": "Diretoria Negocial",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -459,6 +498,7 @@
     "nome": "Givanildo Ferreira",
     "email": "givanildo.ferreira@terceirizemais.com.br",
     "cargo": "Coordenador (a) de filial",
+    "diretoria": "Diretoria de Operação",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -472,6 +512,7 @@
     "nome": "Guilherme Barbieri",
     "email": "guilherme.barbieri@terceirizemais.com.br",
     "cargo": "Head Foods",
+    "diretoria": "Diretoria Foods",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -485,6 +526,7 @@
     "nome": "Guilherme Filho",
     "email": "guilherme.filho@terceirizemais.com.br",
     "cargo": "Analista de Calculo",
+    "diretoria": "Diretoria de Pessoas",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -498,11 +540,12 @@
     "nome": "Guilherme Souza",
     "email": "guilherme.souza@terceirizemais.com.br",
     "cargo": "Especialista de T.I",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": true,
     "t3": false,
     "t4": false,
-    "t5": false,
+    "t5": true,
     "elig3": false,
     "elig4": true,
     "elig5": true
@@ -511,6 +554,7 @@
     "nome": "Jhulye Toncix",
     "email": "jhulye.toncix@terceirizemais.com.br",
     "cargo": "Analista de SGQ/SGI",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -524,6 +568,7 @@
     "nome": "Joao Bettinelli",
     "email": "joao.bettinelli@terceirizemais.com.br",
     "cargo": "Especialista CCO",
+    "diretoria": "Diretoria de Operação",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -537,11 +582,12 @@
     "nome": "João Vitor Dysarz",
     "email": "joao.dysarz@terceirizemais.com.br",
     "cargo": "Analista De Projetos",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": false,
     "t3": false,
     "t4": false,
-    "t5": false,
+    "t5": true,
     "elig3": true,
     "elig4": false,
     "elig5": true
@@ -550,6 +596,7 @@
     "nome": "Jocasta Oliveira",
     "email": "jocasta.oliveira@terceirizemais.com.br",
     "cargo": "Coordenadora De Admissão",
+    "diretoria": "Diretoria de Pessoas",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -563,6 +610,7 @@
     "nome": "Jose Eliseu Prado",
     "email": "jose.prado@terceirizemais.com.br",
     "cargo": "Coordenador (a) de filial",
+    "diretoria": "Diretoria de Operação",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -576,6 +624,7 @@
     "nome": "Josiane Henrique",
     "email": "documentacao@costaoesteserv.com.br",
     "cargo": "Analista de contratos",
+    "diretoria": "Diretoria Negocial",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -589,6 +638,7 @@
     "nome": "Julian Lopes",
     "email": "julian.lopes@terceirizemais.com.br",
     "cargo": "Auxiliar Documental",
+    "diretoria": "Diretoria Negocial",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -602,6 +652,7 @@
     "nome": "Juliana Domingues",
     "email": "juliana.domingues@terceirizemais.com.br",
     "cargo": "Assistente de contratos",
+    "diretoria": "Diretoria Negocial",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -615,6 +666,7 @@
     "nome": "Juliane Batista",
     "email": "juliane.batista@terceirizemais.com.br",
     "cargo": "Coordenador (a) de filial",
+    "diretoria": "Diretoria de Operação",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -628,6 +680,7 @@
     "nome": "Juliano Liberato",
     "email": "juliano.liberato@terceirizemais.com.br",
     "cargo": "Coordenador Fiscal/Controladoria",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -641,6 +694,7 @@
     "nome": "Justina Moreira",
     "email": "justina.moreira@terceirizemais.com.br",
     "cargo": "Coordenadora de Folha",
+    "diretoria": "Diretoria de Pessoas",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -654,6 +708,7 @@
     "nome": "Kairon Nobrega Riguete",
     "email": "kairon.riguete@terceirizemais.com.br",
     "cargo": "Diretor Adm e financeiro",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -667,6 +722,7 @@
     "nome": "Kelvin De Jesus Oliveira",
     "email": "kelvin.oliveira@terceirizemais.com.br",
     "cargo": "Assistente de T.I",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -680,6 +736,7 @@
     "nome": "Léia Kramer",
     "email": "leia.kramer@terceirizemais.com.br",
     "cargo": "Gerente de SGQ/SGI",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -693,6 +750,7 @@
     "nome": "Lorena Xavier",
     "email": "lorena.xavier@terceirizemais.com.br",
     "cargo": "Coordenadora de Recisão",
+    "diretoria": "Diretoria de Pessoas",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -706,6 +764,7 @@
     "nome": "Luan Sarmento",
     "email": "luan.sarmento@terceirizemais.com.br",
     "cargo": "Estagiario de T.I",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -719,6 +778,7 @@
     "nome": "Lucas Moraes",
     "email": "lucas.moraes@terceirizemais.com.br",
     "cargo": "Gerente Financeiro",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -732,6 +792,7 @@
     "nome": "Lucelia Grabin",
     "email": "lucelia.grabin@terceirizemais.com.br",
     "cargo": "Diretora de RH",
+    "diretoria": "Diretoria de Pessoas",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -745,6 +806,7 @@
     "nome": "Luis Cerutti",
     "email": "luis.cerutti@terceirizemais.com.br",
     "cargo": "Analista de CCO",
+    "diretoria": "Diretoria de Operação",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -758,6 +820,7 @@
     "nome": "Luis Osorio",
     "email": "luis.osorio@terceirizemais.com.br",
     "cargo": "Auxiliar de T.I",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -771,6 +834,7 @@
     "nome": "Luiz Henrique dos Santos",
     "email": "luiz.henrique@terceirizemais.com.br",
     "cargo": "Coordenador (a) de filial",
+    "diretoria": "Diretoria de Operação",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -784,6 +848,7 @@
     "nome": "Mara Oliveira",
     "email": "mara.oliveira@terceirizemais.com.br",
     "cargo": "Gerente de filial",
+    "diretoria": "Diretoria de Operação",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -797,6 +862,7 @@
     "nome": "Márcio Leal",
     "email": "marcio.leal@terceirizemais.com.br",
     "cargo": "Gerente de SESMT",
+    "diretoria": "Diretoria de Pessoas",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -810,6 +876,7 @@
     "nome": "Marcos Domborovski",
     "email": "marcos.domborovski@terceirizemais.com.br",
     "cargo": "Assistente de T.I",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -823,6 +890,7 @@
     "nome": "Marcos Eduardo",
     "email": "marcos.eduardo@terceirizemais.com.br",
     "cargo": "Auxiliar de T.I",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -836,6 +904,7 @@
     "nome": "Michael Felipe Albertoni",
     "email": "michael.albertoni@terceirizemais.com.br",
     "cargo": "Gerente de Planejamento e projetos",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -849,6 +918,7 @@
     "nome": "Milene Mirinho",
     "email": "milene.mirinho@terceirizemais.com.br",
     "cargo": "Coordenadora Juridica",
+    "diretoria": "Diretoria Negocial",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -862,6 +932,7 @@
     "nome": "Naiara França",
     "email": "naiara.franca@terceirizemais.com.br",
     "cargo": "Analista De Contrato",
+    "diretoria": "Diretoria Negocial",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -875,6 +946,7 @@
     "nome": "Natan Higuti",
     "email": "natan.higuti@terceirizemais.com.br",
     "cargo": "Estagiário de SESMT",
+    "diretoria": "Diretoria de Pessoas",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -888,6 +960,7 @@
     "nome": "Noélle Salles",
     "email": "noelle.salles@terceirizemais.com.br",
     "cargo": "Gerente de P&O",
+    "diretoria": "Diretoria de Pessoas",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -901,6 +974,7 @@
     "nome": "Ozéias Garcia",
     "email": "ozeias.garcia@terceirizemais.com.br",
     "cargo": "Coordenador (a) de filial",
+    "diretoria": "Diretoria de Operação",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -914,11 +988,12 @@
     "nome": "Pablo Martinez",
     "email": "pablo.martinez@terceirizemais.com.br",
     "cargo": "Especialista de T.I",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": true,
     "t3": false,
     "t4": false,
-    "t5": false,
+    "t5": true,
     "elig3": false,
     "elig4": true,
     "elig5": true
@@ -927,6 +1002,7 @@
     "nome": "Pamela Scherer",
     "email": "pamela.scherer@terceirizemais.com.br",
     "cargo": "Analista de SGQ/SGI",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -940,6 +1016,7 @@
     "nome": "Rafael Mirinho",
     "email": "rafael.mirinho@terceirizemais.com.br",
     "cargo": "Analista de T.I",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -953,6 +1030,7 @@
     "nome": "Robson Carvalho",
     "email": "robson.carvalho@terceirizemais.com.br",
     "cargo": "Coordenador de Faturamento",
+    "diretoria": "Diretoria Negocial",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -966,6 +1044,7 @@
     "nome": "Sérgio Antônio Abrão Freitas",
     "email": "sergio.freitas@terceirizemais.com.br",
     "cargo": "Diretor de Operações",
+    "diretoria": "Diretoria de Operação",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -979,6 +1058,7 @@
     "nome": "Sheron Daniele Breier",
     "email": "sheron.breier@terceirizemais.com.br",
     "cargo": "Assistente de Planejamento",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -992,6 +1072,7 @@
     "nome": "Sidimar Placido Dos Santos",
     "email": "sidimar.santos@terceirizemais.com.br",
     "cargo": "Coordenador De Suprimentos",
+    "diretoria": "Diretoria de Operação",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -1005,6 +1086,7 @@
     "nome": "Suzianne Serra",
     "email": "suzianne.serra@terceirizemais.com.br",
     "cargo": "Coordenadora Contratos/Cadastros",
+    "diretoria": "Diretoria Negocial",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -1018,10 +1100,11 @@
     "nome": "Tainá Dreissig",
     "email": "taina.dreissig@terceirizemais.com.br",
     "cargo": "Auxiliar de dados (T.I)",
+    "diretoria": "Diretoria ADM e Financeira",
     "t1": true,
     "t2": true,
     "t3": false,
-    "t4": false,
+    "t4": true,
     "t5": true,
     "elig3": false,
     "elig4": true,
@@ -1031,6 +1114,7 @@
     "nome": "Talia Renata De Souza Monteiro",
     "email": "talia.monteiro@terceirizemais.com.br",
     "cargo": "Coordenadora de documentação",
+    "diretoria": "Diretoria de Pessoas",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -1044,6 +1128,7 @@
     "nome": "Tiago Cambruzzi",
     "email": "sesmt@costaoesteserv.com.br",
     "cargo": "Analista De Sesmt",
+    "diretoria": "Diretoria de Pessoas",
     "t1": false,
     "t2": false,
     "t3": false,
@@ -1057,6 +1142,7 @@
     "nome": "Vanessa Gnoatto",
     "email": "vanessa.gnoatto@terceirizemais.com.br",
     "cargo": "Gerente de CCO",
+    "diretoria": "Diretoria de Operação",
     "t1": true,
     "t2": false,
     "t3": false,
@@ -1070,6 +1156,7 @@
     "nome": "Viviane Kothe",
     "email": "editais@costaoesteserv.com.br",
     "cargo": "Coordenadora de licitações",
+    "diretoria": "Diretoria Negocial",
     "t1": true,
     "t2": true,
     "t3": false,
@@ -1097,8 +1184,17 @@
     const corporateManagementNames = ['Alessandra Maria Da Costa Demetrio','Aline Goulart Barbieri','Andre Gilson Desoti','C. Weslei de Freitas','Celio Soares','Clayton Rosa','Eduardo Santos','Fernando Adriano Gomes','Jocasta Oliveira','Juliano Liberato','Justina Moreira','Lorena Xavier','Léia Kramer','Lucas Moraes','Michael Felipe Albertoni','Milene Mirinho','Márcio Leal','Noélle Salles','Robson Carvalho','Sidimar Placido Dos Santos','Suzianne Serra','Talia Renata De Souza Monteiro','Vanessa Gnoatto','Viviane Kothe'];
     document.getElementById('directors').innerHTML = managementTable(users.filter(u => directorNames.includes(u.nome)));
     document.getElementById('management').innerHTML = managementTable(users.filter(u => corporateManagementNames.includes(u.nome)));
-    const render = q => { const s=q.trim().toLowerCase(); document.getElementById('all-users').innerHTML=users.filter(u=>!s||u.nome.toLowerCase().includes(s)||u.cargo.toLowerCase().includes(s)).map(u=>`<tr><td><b>${u.nome}</b></td><td>${u.cargo}</td><td>${pill(u.t1)}</td><td>${pill(u.t2)}</td><td>${pill(u.t3,u.elig3)}</td><td>${pill(u.t4,u.elig4)}</td><td>${pill(u.t5,u.elig5)}</td></tr>`).join(''); };
-    render(''); document.getElementById('search').addEventListener('input',e=>render(e.target.value));
+    const dirOrder = ['Diretoria ADM e Financeira','Diretoria de Operação','Diretoria de Pessoas','Diretoria Negocial','Diretoria Foods'];
+    const dirs = dirOrder.filter(d => users.some(u => u.diretoria===d)).concat([...new Set(users.map(u=>u.diretoria))].filter(d=>!dirOrder.includes(d)));
+    const leaderOf = d => users.find(u => u.diretoria===d && directorNames.includes(u.nome));
+    const rate = (arr,k) => { const b=arr.filter(u=>eligible(u,k)); const d=b.filter(u=>u[k]).length; return {d,t:b.length,p:b.length?d/b.length*100:0}; };
+    const rowBar = (lbl,r) => r.t ? `<div class="dir-row"><b>${lbl}</b><div class="bar"><i style="width:${r.p}%"></i></div><span>${r.d}/${r.t}</span></div>` : '';
+    document.getElementById('dir-cards').innerHTML = dirs.map(d => { const arr=users.filter(u=>u.diretoria===d); const l=leaderOf(d); return `<article class="dir-card"><h3>${d}</h3><span class="lead">${l?l.nome+' · ':''}${arr.length} pessoa(s)</span>${['t1','t2','t4','t5'].map(k=>rowBar(k.toUpperCase(),rate(arr,k))).join('')}</article>`; }).join('');
+    const fullTable = arr => `<table><thead><tr><th>Nome</th><th>Cargo</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody>${arr.map(u=>`<tr><td><b>${u.nome}</b></td><td>${u.cargo}</td><td>${pill(u.t1)}</td><td>${pill(u.t2)}</td><td>${pill(u.t3,u.elig3)}</td><td>${pill(u.t4,u.elig4)}</td><td>${pill(u.t5,u.elig5)}</td></tr>`).join('')}</tbody></table>`;
+    document.getElementById('dir-lists').innerHTML = dirs.map(d => { const arr=users.filter(u=>u.diretoria===d).sort((a,b)=>(directorNames.includes(b.nome)-directorNames.includes(a.nome))||a.nome.localeCompare(b.nome,'pt-BR')); const r1=rate(arr,'t1'); return `<details class="dir-block"><summary>${d}<small>${arr.length} pessoa(s) · T1 ${r1.p.toFixed(0)}%</small></summary><div class="inside">${fullTable(arr)}</div></details>`; }).join('');
+    const sel=document.getElementById('dir-filter'); sel.innerHTML += dirs.map(d=>`<option value="${d}">${d}</option>`).join('');
+    const render = () => { const s=document.getElementById('search').value.trim().toLowerCase(); const f=sel.value; document.getElementById('all-users').innerHTML=users.filter(u=>(!f||u.diretoria===f)&&(!s||u.nome.toLowerCase().includes(s)||u.cargo.toLowerCase().includes(s))).map(u=>`<tr><td><b>${u.nome}</b></td><td>${u.cargo}</td><td>${u.diretoria}</td><td>${pill(u.t1)}</td><td>${pill(u.t2)}</td><td>${pill(u.t3,u.elig3)}</td><td>${pill(u.t4,u.elig4)}</td><td>${pill(u.t5,u.elig5)}</td></tr>`).join(''); };
+    render(); document.getElementById('search').addEventListener('input',render); sel.addEventListener('change',render);
   </script>
-</body>
-</html>
+
+</body></html>
